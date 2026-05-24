@@ -15,9 +15,11 @@ export function formatPrice(price) {
 }
 
 export function formatDuration(seconds) {
-  if (!seconds) return "0 min";
+  const totalSeconds = Number(seconds || 0);
 
-  const totalMinutes = Math.ceil(Number(seconds) / 60);
+  if (!totalSeconds) return "0 min";
+
+  const totalMinutes = Math.ceil(totalSeconds / 60);
 
   if (totalMinutes < 60) {
     return `${totalMinutes} min`;

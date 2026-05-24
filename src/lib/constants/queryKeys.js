@@ -9,6 +9,10 @@ export const queryKeys = {
     detail: (slug) => ["courses", "detail", slug],
   },
 
+  lectures: {
+    playback: (lectureId) => ["lectures", "playback", lectureId],
+  },
+
   categories: {
     all: ["categories"],
   },

@@ -108,22 +108,6 @@ export default function ProfilePage() {
           </Button>
         </div>
       </section>
-
-      <section className="rounded-[24px] border border-dashed border-[#dbe5f0] bg-[#f8fbff] p-5 sm:rounded-[28px] sm:p-7">
-        <h3 className="text-[21px] font-bold tracking-[-0.04em] text-[#20242a] sm:text-2xl">
-          Profile editing
-        </h3>
-
-        <p className="mt-2 text-[15px] leading-7 text-[#66788f]">
-          Your current API collection does not expose a public endpoint to update
-          first name, last name, or username. Once the backend adds an endpoint
-          like{" "}
-          <span className="break-all font-bold text-[#20242a]">
-            PATCH /api/auth/profile
-          </span>
-          , we can add a clean editable profile form here.
-        </p>
-      </section>
     </div>
   );
 }
