@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import AuthModal from "@/components/auth/AuthModal";
@@ -14,7 +15,6 @@ import LecturePlaybackModal from "@/components/course-detail/LecturePlaybackModa
 import MobileCourseActionBar from "@/components/course-detail/MobileCourseActionBar";
 import { useCourseDetail } from "@/lib/hooks/useCourseDetail";
 import { useCourses } from "@/lib/hooks/useCourses";
-import { useCreateCheckoutSession } from "@/lib/hooks/usePayments";
 import { useLecturePlayback } from "@/lib/hooks/useLecturePlayback";
 import { useAuthStore } from "@/lib/store/auth.store";
 import {
@@ -30,13 +30,13 @@ export default function CourseDetailPageClient({ slug }) {
   const [playbackOpen, setPlaybackOpen] = useState(false);
   const [activePlayback, setActivePlayback] = useState(null);
 
+  const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const accessToken = useAuthStore((state) => state.accessToken);
   const isLoggedIn = Boolean(user && accessToken);
 
   const courseQuery = useCourseDetail(slug);
   const playbackMutation = useLecturePlayback();
-  const checkoutMutation = useCreateCheckoutSession();
 
   const course = normalizeCourseDetail(courseQuery.data);
   const lectures = useMemo(() => getCourseLectures(course), [course]);
@@ -90,8 +90,8 @@ export default function CourseDetailPageClient({ slug }) {
     toast.info("Subscribe or purchase this course to start listening.");
   }
 
-  async function handleCheckout() {
-    if (!course?.id || !primaryPrice?.id) {
+  function handleCheckout() {
+    if (!course?.slug || !primaryPrice?.id) {
       toast.error("Course price is not available yet.");
       return;
     }
@@ -101,10 +101,7 @@ export default function CourseDetailPageClient({ slug }) {
       return;
     }
 
-    await checkoutMutation.mutateAsync({
-      courseId: course.id,
-      coursePriceId: primaryPrice.id,
-    });
+    router.push(`/checkout?slug=${course.slug}&priceId=${primaryPrice.id}`);
   }
 
   if (courseQuery.isLoading) {
@@ -153,7 +150,7 @@ export default function CourseDetailPageClient({ slug }) {
                   primaryPrice={primaryPrice}
                   onStartListening={handleStartListening}
                   onCheckout={handleCheckout}
-                  checkoutLoading={checkoutMutation.isPending}
+                  checkoutLoading={false}
                 />
               </div>
 
@@ -202,7 +199,7 @@ export default function CourseDetailPageClient({ slug }) {
                   primaryPrice={primaryPrice}
                   onStartListening={handleStartListening}
                   onCheckout={handleCheckout}
-                  checkoutLoading={checkoutMutation.isPending}
+                  checkoutLoading={false}
                 />
               </div>
             </aside>
@@ -216,7 +213,7 @@ export default function CourseDetailPageClient({ slug }) {
         primaryPrice={primaryPrice}
         onStartListening={handleStartListening}
         onCheckout={handleCheckout}
-        checkoutLoading={checkoutMutation.isPending}
+        checkoutLoading={false}
       />
 
       <AuthModal open={authOpen} onOpenChange={setAuthOpen} />

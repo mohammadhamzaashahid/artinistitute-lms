@@ -7,6 +7,7 @@ import LoginForm from "@/components/auth/LoginForm";
 import RegisterForm from "@/components/auth/RegisterForm";
 import VerifyOtpForm from "@/components/auth/VerifyOtpForm";
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
+import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
 import {
   Dialog,
   DialogContent,
@@ -124,6 +125,18 @@ export default function AuthModal({
               {view === "forgot" ? (
                 <ForgotPasswordForm
                   onBack={() => setView("login")}
+                  onSuccess={(email) => {
+                    setPendingEmail(email);
+                    setView("reset-verify");
+                  }}
+                />
+              ) : null}
+
+              {view === "reset-verify" ? (
+                <ResetPasswordForm
+                  email={pendingEmail}
+                  onBack={() => setView("forgot")}
+                  onSuccess={() => setView("login")}
                 />
               ) : null}
             </div>

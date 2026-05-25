@@ -6,7 +6,7 @@ import { ArrowLeft, Loader2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useForgotPassword } from "@/lib/hooks/useAuth";
 
-export default function ForgotPasswordForm({ onBack }) {
+export default function ForgotPasswordForm({ onBack, onSuccess }) {
   const forgotMutation = useForgotPassword();
 
   const {
@@ -20,7 +20,10 @@ export default function ForgotPasswordForm({ onBack }) {
   });
 
   async function onSubmit(values) {
-    await forgotMutation.mutateAsync(values);
+    try {
+      await forgotMutation.mutateAsync(values);
+      onSuccess?.(values.email);
+    } catch {}
   }
 
   return (

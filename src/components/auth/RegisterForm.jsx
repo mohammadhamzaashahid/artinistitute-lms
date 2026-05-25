@@ -12,7 +12,6 @@ export default function RegisterForm({ onRegistered }) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -25,8 +24,10 @@ export default function RegisterForm({ onRegistered }) {
   });
 
   async function onSubmit(values) {
-    await registerMutation.mutateAsync(values);
-    onRegistered?.(values.email);
+    try {
+      await registerMutation.mutateAsync(values);
+      onRegistered?.(values.email);
+    } catch {}
   }
 
   return (

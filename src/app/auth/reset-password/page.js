@@ -1,6 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { ArrowLeft, Loader2, Lock, Mail, ShieldCheck } from "lucide-react";
 
@@ -9,6 +11,18 @@ import { Button } from "@/components/ui/button";
 import { useResetPassword } from "@/lib/hooks/useAuth";
 
 export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<ResetPasswordFallback />}>
+      <ResetPasswordContent />
+    </Suspense>
+  );
+}
+
+function ResetPasswordContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const emailFromParams = searchParams.get("email") ?? "";
+
   const resetMutation = useResetPassword();
 
   const {
@@ -17,14 +31,17 @@ export default function ResetPasswordPage() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "",
+      email: emailFromParams,
       otp: "",
       newPassword: "",
     },
   });
 
   async function onSubmit(values) {
-    await resetMutation.mutateAsync(values);
+    try {
+      await resetMutation.mutateAsync(values);
+      router.push("/");
+    } catch {}
   }
 
   return (
@@ -94,9 +111,10 @@ export default function ResetPasswordPage() {
               error={errors.newPassword?.message}
               inputProps={register("newPassword", {
                 required: "New password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters",
+                minLength: { value: 8, message: "Password must be at least 8 characters" },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/,
+                  message: "Must include uppercase, lowercase, and a number",
                 },
               })}
               placeholder="Minimum 8 characters"
@@ -117,6 +135,21 @@ export default function ResetPasswordPage() {
               )}
             </Button>
           </form>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function ResetPasswordFallback() {
+  return (
+    <section className="bg-white py-16 sm:py-20">
+      <Container>
+        <div className="mx-auto max-w-[480px] rounded-[28px] border border-[#e3eaf3] bg-white p-8 text-center shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
+          <Loader2 className="mx-auto h-7 w-7 animate-spin text-[#377dff]" />
+          <p className="mt-4 text-sm font-semibold text-[#66788f]">
+            Loading reset form...
+          </p>
         </div>
       </Container>
     </section>

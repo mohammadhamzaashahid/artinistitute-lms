@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 
 import Container from "@/components/common/Container";
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
 
 export default function ForgotPasswordPage() {
+  const router = useRouter();
+
   return (
     <section className="bg-white py-16 sm:py-20">
       <Container>
@@ -19,7 +22,11 @@ export default function ForgotPasswordPage() {
             Back to home
           </Link>
 
-          <ForgotPasswordForm />
+          <ForgotPasswordForm
+            onSuccess={(email) => {
+              router.push(`/auth/reset-password?email=${encodeURIComponent(email)}`);
+            }}
+          />
         </div>
       </Container>
     </section>

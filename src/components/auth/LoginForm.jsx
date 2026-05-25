@@ -21,8 +21,10 @@ export default function LoginForm({ onForgot, onSuccess }) {
   });
 
   async function onSubmit(values) {
-    await loginMutation.mutateAsync(values);
-    onSuccess?.();
+    try {
+      await loginMutation.mutateAsync(values);
+      onSuccess?.();
+    } catch {}
   }
 
   return (

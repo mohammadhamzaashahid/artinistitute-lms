@@ -25,5 +25,6 @@ export const queryKeys = {
     myCourses: (params) => ["payments", "my-courses", params],
     mySubscriptions: (params) => ["payments", "my-subscriptions", params],
     myPurchases: (params) => ["payments", "my-purchases", params],
+    sessionStatus: (sessionId) => ["payments", "session-status", sessionId],
   },
 };

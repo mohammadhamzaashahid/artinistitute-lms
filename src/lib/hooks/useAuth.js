@@ -44,6 +44,10 @@ export function useLogin() {
         queryKey: ["payments"],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.courses.all,
+      });
+
       toast.success("Logged in successfully");
     },
     onError: (error) => {

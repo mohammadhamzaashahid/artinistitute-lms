@@ -7,10 +7,13 @@ import {
   getMyCourses,
   getMyPurchases,
   getMySubscriptions,
+  getSessionStatus,
 } from "@/lib/api/payments.api";
 import { queryKeys } from "@/lib/constants/queryKeys";
 import { getApiErrorMessage } from "@/lib/utils/errors";
 import { toast } from "sonner";
+
+const CONFIRMED_STATUSES = ["PAID", "ACTIVE", "TRIALING"];
 
 export function useMyCourses(params = { page: 1, limit: 20 }) {
   return useQuery({
@@ -71,6 +74,21 @@ export function useCreateCustomerPortalSession() {
     },
     onError: (error) => {
       toast.error(getApiErrorMessage(error, "Unable to open billing portal"));
+    },
+  });
+}
+
+export function useSessionStatus(sessionId, { enabled = true } = {}) {
+  return useQuery({
+    queryKey: queryKeys.payments.sessionStatus(sessionId),
+    queryFn: () => getSessionStatus(sessionId),
+    enabled: Boolean(sessionId) && enabled,
+    staleTime: 0,
+    gcTime: 0,
+    refetchInterval: (query) => {
+      const status = query.state.data?.status;
+      if (CONFIRMED_STATUSES.includes(status)) return false;
+      return 2000;
     },
   });
 }

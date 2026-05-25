@@ -41,3 +41,11 @@ export async function getMyPurchases(params = {}) {
 
   return data.data;
 }
+
+export async function getSessionStatus(sessionId) {
+  const { data } = await apiClient.get("/api/payments/session-status", {
+    params: { sessionId },
+  });
+
+  return data.data;
+}
