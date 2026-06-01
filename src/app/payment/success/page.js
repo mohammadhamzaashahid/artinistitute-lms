@@ -116,7 +116,7 @@ function PaymentSuccessContent() {
     );
   }
 
-  if (timedOut && !confirmed) {
+  if (timedOut && !isConfirmed) {
     return (
       <section className="min-h-screen bg-[#f6f9ff] py-14 sm:py-20">
         <Container>

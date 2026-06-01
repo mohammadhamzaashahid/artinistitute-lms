@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo } from "react";
+import { Suspense, useMemo, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -60,6 +60,7 @@ function CheckoutContent() {
 
   const courseQuery = useCourseDetail(slug);
   const checkoutMutation = useCreateCheckoutSession();
+  const checkoutInFlightRef = useRef(false);
 
   const course = normalizeCourseDetail(courseQuery.data);
   const lectures = useMemo(() => getCourseLectures(course), [course]);
@@ -80,13 +81,18 @@ function CheckoutContent() {
   const intervalDays = billingInterval === "year" ? 365 : 30;
 
   async function handlePay() {
-    if (!course?.id || !selectedPrice?.id) return;
+    if (!course?.id || !selectedPrice?.id || checkoutInFlightRef.current) return;
+
+    checkoutInFlightRef.current = true;
+
     try {
       await checkoutMutation.mutateAsync({
         courseId: course.id,
         coursePriceId: selectedPrice.id,
       });
-    } catch {}
+    } catch {
+      checkoutInFlightRef.current = false;
+    }
   }
 
   if (!slug || !priceId) {
