@@ -5,15 +5,6 @@ import { BookOpen } from "lucide-react";
 import { getCourseImage } from "@/lib/utils/media";
 import { cn } from "@/lib/utils/cn";
 
-const fallbackImages = [
-  "/images/courses/course-1.svg",
-  "/images/courses/course-2.svg",
-  "/images/courses/course-3.svg",
-  "/images/courses/course-4.svg",
-  "/images/courses/course-5.svg",
-  "/images/courses/course-6.svg",
-];
-
 const backgrounds = [
   "bg-[#86b9d7]",
   "bg-[#89a9cf]",
@@ -23,10 +14,16 @@ const backgrounds = [
   "bg-[#d5a1c3]",
 ];
 
-export default function CourseListImage({ course, index = 0, className }) {
-  const imageUrl = getCourseImage(course);
+export default function CourseListImage({
+  course,
+  index = 0,
+  className,
+  type = "thumbnail",
+  sizes = "(max-width: 768px) 100vw, 310px",
+  priority = false,
+}) {
+  const imageUrl = getCourseImage(course, type);
   const hasImage = imageUrl && !imageUrl.includes("course-placeholder");
-  const fallback = fallbackImages[index % fallbackImages.length];
 
   return (
     <div
@@ -36,12 +33,13 @@ export default function CourseListImage({ course, index = 0, className }) {
         className
       )}
     >
-      {hasImage || fallback ? (
+      {hasImage ? (
         <Image
-          src={hasImage ? imageUrl : fallback}
+          src={imageUrl}
           alt={course?.title || "Course image"}
           fill
-          sizes="(max-width: 768px) 100vw, 310px"
+          priority={priority}
+          sizes={sizes}
           className="object-cover transition duration-500 group-hover:scale-[1.035]"
         />
       ) : (

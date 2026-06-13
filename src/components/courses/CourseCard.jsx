@@ -1,31 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, Clock3, ThumbsUp } from "lucide-react";
 
+import CourseListImage from "@/components/courses/CourseListImage";
 import PriceText from "@/components/common/PriceText";
 import { cn } from "@/lib/utils/cn";
-import { getCourseImage } from "@/lib/utils/media";
 import { formatDuration } from "@/lib/utils/format";
-
-const fallbackImages = [
-  "/images/courses/course-1.svg",
-  "/images/courses/course-2.svg",
-  "/images/courses/course-3.svg",
-  "/images/courses/course-4.svg",
-  "/images/courses/course-5.svg",
-  "/images/courses/course-6.svg",
-];
-
-const fallbackBackgrounds = [
-  "bg-[#ffdfce]",
-  "bg-[#a8dad7]",
-  "bg-[#97bbae]",
-  "bg-[#8aaad1]",
-  "bg-[#aeb7bd]",
-  "bg-[#d6a4c5]",
-];
 
 export default function CourseCard({
   course,
@@ -33,11 +14,6 @@ export default function CourseCard({
   className,
   priority = false,
 }) {
-  const imageUrl = getCourseImage(course);
-  const hasRealImage = imageUrl && !imageUrl.includes("course-placeholder");
-  const fallbackImage = fallbackImages[index % fallbackImages.length];
-  const bg = fallbackBackgrounds[index % fallbackBackgrounds.length];
-
   const price = Array.isArray(course?.prices) ? course.prices[0] : null;
   const lectureCount = course?._count?.lectures || course?.lectures?.length || 0;
 
@@ -58,13 +34,14 @@ export default function CourseCard({
         className
       )}
     >
-      <div className={cn("relative aspect-[1.05/1] overflow-hidden", bg)}>
-        <Image
-          src={hasRealImage ? imageUrl : fallbackImage}
-          alt={course?.title || "Course"}
-          fill
+      <div className="relative">
+        <CourseListImage
+          course={course}
+          index={index}
+          type="thumbnail"
           priority={priority}
-          className="object-cover transition duration-500 group-hover:scale-[1.035]"
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 360px"
+          className="aspect-[1.65/1] rounded-none"
         />
 
         {price ? (

@@ -18,6 +18,10 @@ export default function CoursesToolbar({
   categories = [],
   activeCategory,
   search = "",
+  activeLevel = [],
+  activePrice = "",
+  activeLanguage = [],
+  activeRating = "",
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -46,10 +50,14 @@ export default function CoursesToolbar({
           categories={categories}
           activeCategory={activeCategory}
           search={debouncedSearch}
+          activeLevel={activeLevel}
+          activePrice={activePrice}
+          activeLanguage={activeLanguage}
+          activeRating={activeRating}
         />
 
-        <div className="relative w-full max-w-[520px]">
-          <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#93a3b5]" />
+        <div className="relative w-full max-w-130">
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-[#93a3b5]" />
           <input
             value={searchInput}
             onChange={(event) => setSearchInput(event.target.value)}
@@ -63,7 +71,7 @@ export default function CoursesToolbar({
         <span className="text-[15px] font-medium text-[#617389]">Sort by</span>
 
         <Select defaultValue="trending">
-          <SelectTrigger className="h-12 w-[140px] rounded-[5px] border-[#dfe7f1] text-[15px] font-medium text-[#617389]">
+          <SelectTrigger className="h-12 w-35 rounded-[5px] border-[#dfe7f1] text-[15px] font-medium text-[#617389]">
             <SelectValue placeholder="Sort" />
           </SelectTrigger>
           <SelectContent>

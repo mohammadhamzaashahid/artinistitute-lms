@@ -28,6 +28,10 @@ export default function CoursesPageClient({
   initialPage = 1,
   initialCategory = "",
   initialSearch = "",
+  initialLevel = [],
+  initialPrice = "",
+  initialLanguage = [],
+  initialRating = "",
 }) {
   const params = {
     page: initialPage,
@@ -36,6 +40,10 @@ export default function CoursesPageClient({
 
   if (initialCategory) params.category = initialCategory;
   if (initialSearch) params.search = initialSearch;
+  if (initialLevel.length) params.level = initialLevel.join(",");
+  if (initialPrice && initialPrice !== "all") params.price = initialPrice;
+  if (initialLanguage.length) params.language = initialLanguage.join(",");
+  if (initialRating) params.rating = initialRating;
 
   const { data: categoriesData, isLoading: categoriesLoading } =
     useCategories();
@@ -60,6 +68,10 @@ export default function CoursesPageClient({
             categories={categories}
             activeCategory={initialCategory}
             search={initialSearch}
+            activeLevel={initialLevel}
+            activePrice={initialPrice}
+            activeLanguage={initialLanguage}
+            activeRating={initialRating}
           />
 
           <section>
@@ -67,6 +79,10 @@ export default function CoursesPageClient({
               categories={categories}
               activeCategory={initialCategory}
               search={initialSearch}
+              activeLevel={initialLevel}
+              activePrice={initialPrice}
+              activeLanguage={initialLanguage}
+              activeRating={initialRating}
             />
 
             {categoriesLoading ? (
@@ -77,9 +93,11 @@ export default function CoursesPageClient({
 
             <div>
               {coursesLoading ? (
-                Array.from({ length: 4 }).map((_, index) => (
-                  <CourseListSkeleton key={index} />
-                ))
+                <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <CourseListSkeleton key={index} />
+                  ))}
+                </div>
               ) : null}
 
               {!coursesLoading && coursesError ? (
@@ -96,15 +114,17 @@ export default function CoursesPageClient({
                 />
               ) : null}
 
-              {!coursesLoading && !coursesError
-                ? courses.map((course, index) => (
+              {!coursesLoading && !coursesError && courses.length > 0 ? (
+                <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                  {courses.map((course, index) => (
                     <CourseListCard
                       key={course.id || course.slug}
                       course={course}
                       index={index}
                     />
-                  ))
-                : null}
+                  ))}
+                </div>
+              ) : null}
             </div>
 
             <CoursePagination
