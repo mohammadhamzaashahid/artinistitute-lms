@@ -56,8 +56,7 @@ export default function LecturePlaybackModal({
             )}
 
             <p className="mt-4 text-center text-xs leading-5 text-[#8a9aad]">
-              This playback link is securely signed and may expire. If playback
-              stops later, reopen the lecture to generate a new link.
+              Reopen the lecture if playback stops unexpectedly.
             </p>
           </div>
         </div>
