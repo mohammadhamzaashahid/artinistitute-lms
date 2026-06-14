@@ -45,30 +45,32 @@ export default function SiteNavbar() {
     <>
       <header className="sticky top-0 z-50 border-b border-transparent bg-white/92 backdrop-blur-xl">
         <Container>
-          <div className="flex h-[70px] items-center gap-4 lg:h-[74px]">
-            <div className="flex min-w-fit items-center">
-              <AppLogo />
+          <div className="flex h-[70px] items-center gap-3 lg:h-[74px] xl:gap-6">
+            <div className="flex shrink-0 items-center">
+              <AppLogo className="h-[62px] w-[138px] lg:h-[66px] lg:w-[146px]" />
             </div>
 
-            <Link
-              href="/courses"
-              className="ml-8 hidden items-center gap-2 text-[17px] font-medium text-[#68798d] transition hover:text-[#377dff] lg:inline-flex"
-            >
-              <Grid3X3 className="h-4 w-4" />
-              All courses
-            </Link>
+            <nav className="hidden shrink-0 items-center gap-5 lg:flex xl:gap-7">
+              <Link
+                href="/courses"
+                className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-[16px] font-medium text-[#68798d] transition hover:text-[#377dff] xl:text-[17px]"
+              >
+                <Grid3X3 className="h-4 w-4 shrink-0" />
+                All courses
+              </Link>
 
-            <Link
-              href="/explore-us"
-              className="hidden items-center gap-2 text-[17px] font-medium text-[#68798d] transition hover:text-[#377dff] lg:inline-flex"
-            >
-              <Compass className="h-4 w-4" />
-              Explore Us
-            </Link>
+              <Link
+                href="/explore-us"
+                className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-[16px] font-medium text-[#68798d] transition hover:text-[#377dff] xl:text-[17px]"
+              >
+                <Compass className="h-4 w-4 shrink-0" />
+                Explore Us
+              </Link>
+            </nav>
 
             <form
               onSubmit={handleSearchSubmit}
-              className="mx-auto hidden w-full max-w-[560px] lg:block"
+              className="hidden min-w-[260px] flex-1 lg:block lg:max-w-[440px] xl:max-w-[560px] 2xl:max-w-[680px]"
             >
               <div className="relative">
                 <Search className="pointer-events-none absolute left-4 top-1/2 h-[19px] w-[19px] -translate-y-1/2 text-[#93a3b5]" />
@@ -81,7 +83,7 @@ export default function SiteNavbar() {
               </div>
             </form>
 
-            <div className="ml-auto hidden items-center lg:flex">
+            <div className="ml-auto hidden shrink-0 items-center lg:flex">
               {isLoggedIn ? (
                 <UserMenu />
               ) : (
