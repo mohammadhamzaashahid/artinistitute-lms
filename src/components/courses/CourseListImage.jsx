@@ -18,12 +18,16 @@ export default function CourseListImage({
   course,
   index = 0,
   className,
+  imageClassName,
+  imageWidth,
+  imageHeight,
   type = "thumbnail",
   sizes = "(max-width: 768px) 100vw, 310px",
   priority = false,
 }) {
   const imageUrl = getCourseImage(course, type);
   const hasImage = imageUrl && !imageUrl.includes("course-placeholder");
+  const useIntrinsicImageSize = imageWidth && imageHeight;
 
   return (
     <div
@@ -33,14 +37,30 @@ export default function CourseListImage({
         className
       )}
     >
-      {hasImage ? (
+      {hasImage && useIntrinsicImageSize ? (
+        <Image
+          src={imageUrl}
+          alt={course?.title || "Course image"}
+          width={imageWidth}
+          height={imageHeight}
+          priority={priority}
+          sizes={sizes}
+          className={cn(
+            "h-auto w-full object-cover transition duration-500 group-hover:scale-[1.035]",
+            imageClassName
+          )}
+        />
+      ) : hasImage ? (
         <Image
           src={imageUrl}
           alt={course?.title || "Course image"}
           fill
           priority={priority}
           sizes={sizes}
-          className="object-cover transition duration-500 group-hover:scale-[1.035]"
+          className={cn(
+            "object-cover transition duration-500 group-hover:scale-[1.035]",
+            imageClassName
+          )}
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center">

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Grid3X3, Menu, Search, X } from "lucide-react";
+import { Compass, Grid3X3, Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 
 import AppLogo from "@/components/common/AppLogo";
@@ -56,6 +56,14 @@ export default function SiteNavbar() {
             >
               <Grid3X3 className="h-4 w-4" />
               All courses
+            </Link>
+
+            <Link
+              href="/explore-us"
+              className="hidden items-center gap-2 text-[17px] font-medium text-[#68798d] transition hover:text-[#377dff] lg:inline-flex"
+            >
+              <Compass className="h-4 w-4" />
+              Explore Us
             </Link>
 
             <form
@@ -129,6 +137,15 @@ export default function SiteNavbar() {
                 >
                   <Grid3X3 className="h-4 w-4" />
                   All courses
+                </Link>
+
+                <Link
+                  href="/explore-us"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#f5f8fc] px-4 text-[15px] font-semibold text-[#52657a]"
+                >
+                  <Compass className="h-4 w-4" />
+                  Explore Us
                 </Link>
 
                 {isLoggedIn ? (

@@ -54,7 +54,7 @@ const exploreLinks = [
   { label: "New Arrivals", href: "/courses?sort=newest" },
   { label: "Popular Courses", href: "/courses?sort=popular" },
   { label: "Learning Paths", href: "/learning-paths" },
-  { label: "Books", href: "/books" },
+  { label: "Books", href: "/explore-us?section=books" },
 ];
 
 const learnerLinks = [
@@ -63,25 +63,25 @@ const learnerLinks = [
   { label: "Certificates", href: "/dashboard/certificates" },
   { label: "Wishlist", href: "/dashboard/wishlist" },
   { label: "Order History", href: "/dashboard/orders" },
-  { label: "Help Center", href: "/help" },
+  { label: "Help Center", href: "/explore-us?section=help" },
 ];
 
 const resourceLinks = [
   { label: "Blog", href: "/blog" },
-  { label: "Study Guides", href: "/resources/study-guides" },
-  { label: "Webinars", href: "/webinars" },
-  { label: "Career Support", href: "/career-support" },
-  { label: "Learning Support", href: "/support" },
-  { label: "Student Stories", href: "/student-stories" },
+  { label: "Study Guides", href: "/explore-us?section=study-guides" },
+  { label: "Webinars", href: "/explore-us?section=webinars" },
+  { label: "Career Support", href: "/explore-us?section=career-support" },
+  { label: "Learning Support", href: "/explore-us?section=learning-support" },
+  { label: "Student Stories", href: "/explore-us?section=student-stories" },
 ];
 
 const instituteLinks = [
-  { label: "About Us", href: "/about" },
-  { label: "Our Instructors", href: "/instructors" },
-  { label: "KHDA Certification", href: "/khda" },
-  { label: "Reviews", href: "/reviews" },
-  { label: "News & Updates", href: "/news" },
-  { label: "Contact Us", href: "/contact" },
+  { label: "About Us", href: "/explore-us?section=about" },
+  { label: "Our Instructors", href: "/explore-us?section=instructors" },
+  { label: "KHDA Certification", href: "/explore-us?section=khda" },
+  { label: "Reviews", href: "/explore-us?section=reviews" },
+  { label: "News & Updates", href: "/explore-us?section=news" },
+  { label: "Contact Us", href: "/explore-us?section=contact" },
 ];
 
 const socialLinks = [
@@ -122,12 +122,12 @@ const trustBadges = [
 ];
 
 const bottomLinks = [
-  { Icon: HelpCircle, label: "Help Center", href: "/help" },
+  { Icon: HelpCircle, label: "Help Center", href: "/explore-us?section=help" },
   { Icon: FileText, label: "Terms of Use", href: "/terms" },
   { Icon: Shield, label: "Privacy Policy", href: "/privacy" },
   { Icon: RefreshCcw, label: "Refund Policy", href: "/refund-policy" },
   { Icon: Cookie, label: "Cookie Policy", href: "/cookie-policy" },
-  { Icon: Mail, label: "Contact Us", href: "/contact" },
+  { Icon: Mail, label: "Contact Us", href: "/explore-us?section=contact" },
 ];
 
 function FooterLinkColumn({ title, links }) {
