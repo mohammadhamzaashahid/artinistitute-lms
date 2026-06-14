@@ -49,7 +49,7 @@ const TikTokIcon = () => (
 
 
 const exploreLinks = [
-  { label: "All Courses", href: "/courses" },
+  { label: "Emirati Arabic", href: "/courses" },
   { label: "Live Online Classes", href: "/live-online-classes" },
   { label: "New Arrivals", href: "/courses?sort=newest" },
   { label: "Popular Courses", href: "/courses?sort=popular" },
@@ -67,7 +67,7 @@ const learnerLinks = [
 ];
 
 const resourceLinks = [
-  { label: "Blog", href: "/blog" },
+  { label: "Free Lessons", href: "/free-lessons" },
   { label: "Study Guides", href: "/explore-us?section=study-guides" },
   { label: "Webinars", href: "/explore-us?section=webinars" },
   { label: "Career Support", href: "/explore-us?section=career-support" },
