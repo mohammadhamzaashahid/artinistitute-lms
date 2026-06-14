@@ -47,19 +47,14 @@ const TikTokIcon = () => (
   </svg>
 );
 
-const XIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-);
 
 const exploreLinks = [
   { label: "All Courses", href: "/courses" },
-  { label: "Categories", href: "/categories" },
+  { label: "Live Online Classes", href: "/live-online-classes" },
   { label: "New Arrivals", href: "/courses?sort=newest" },
   { label: "Popular Courses", href: "/courses?sort=popular" },
   { label: "Learning Paths", href: "/learning-paths" },
-  { label: "Gift Cards", href: "/gift-cards" },
+  { label: "Books", href: "/books" },
 ];
 
 const learnerLinks = [
@@ -95,7 +90,7 @@ const socialLinks = [
   { Icon: LinkedinIcon, href: "https://linkedin.com", label: "LinkedIn" },
   { Icon: YoutubeIcon, href: "https://youtube.com", label: "YouTube" },
   { Icon: TikTokIcon, href: "https://tiktok.com", label: "TikTok" },
-  { Icon: XIcon, href: "https://x.com", label: "X" },
+  // { Icon: XIcon, href: "https://x.com", label: "X" },
 ];
 
 const trustBadges = [
@@ -168,7 +163,7 @@ export default function SiteFooter() {
           {/* Brand column */}
           <div className="flex flex-col gap-5 md:col-span-2 lg:col-span-1">
             <AppLogo
-              className="h-20 w-42.5 justify-start py-2 lg:h-27 lg:w-52.5"
+              className="h-30 w-42.5 justify-start py-2 lg:h-40 lg:w-58.5"
               imageClassName="object-left"
               priority={false}
             />
@@ -227,28 +222,19 @@ export default function SiteFooter() {
             </div>
 
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-blue-600">
+              {/* <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-blue-600">
                 <ShieldCheck className="h-7 w-7 text-white" />
-              </div>
-              <div>
-                <p className="text-lg font-extrabold text-blue-400">KHDA</p>
-                <p className="text-lg font-extrabold text-white">Certified</p>
-              </div>
+              </div> */}
+              <p className="text-lg font-extrabold">
+                <span className="text-blue-400">KHDA</span>{" "}
+                <span className="text-white">Certified</span>
+              </p>
             </div>
 
             <p className="mb-5 text-[12.5px] leading-relaxed text-slate-400">
               Artin Institute is proud to be certified by the Knowledge and
               Human Development Authority (KHDA), Dubai.
             </p>
-
-            <div className="border-t border-slate-700 pt-4">
-              <p className="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
-                License No.
-              </p>
-              <p className="mt-1 text-[15px] font-bold text-blue-400">
-                EK1679727
-              </p>
-            </div>
           </div>
         </div>
       </div>
@@ -289,13 +275,13 @@ export default function SiteFooter() {
             ))}
           </nav>
 
-          {/* Row 2 — copyright | language | payments */}
+
           <div className="grid grid-cols-1 items-center gap-4 lg:grid-cols-[1fr_auto_1fr]">
-            {/* Copyright */}
+
             <p className="text-center text-[12.5px] text-slate-400 lg:text-left">
               © 2026{" "}
               <Link href="/" className="text-blue-400 hover:underline">
-                Art-in Institute
+                Artin Institute
               </Link>
               . All rights reserved.
             </p>

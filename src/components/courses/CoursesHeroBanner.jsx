@@ -4,7 +4,7 @@ export default function CoursesHeroBanner() {
   return (
     <section className="overflow-hidden rounded-[5px]">
       <Image
-        src="/assets/course-banner/image.png"
+        src="/assets/course-banner/Website Banner.png"
         alt="Courses banner"
         width={1600}
         height={400}

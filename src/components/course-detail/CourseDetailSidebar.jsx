@@ -23,7 +23,7 @@ export default function CourseDetailSidebar({
         <CourseListImage
           course={course}
           index={0}
-          type="banner"
+          type="thumbnail"
           sizes="(max-width: 1024px) 100vw, 390px"
           className="aspect-[16/9] rounded-[4px]"
         />

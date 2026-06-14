@@ -14,6 +14,10 @@ const nextConfig = {
         protocol: "http",
         hostname: "localhost",
       },
+      {
+        protocol: "https",
+        hostname: "modeling-cup-chambers-semi.trycloudflare.com"
+      },
       // Cloudflare tunnel used during local dev/testing
       {
         protocol: "https",

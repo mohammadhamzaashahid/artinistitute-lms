@@ -18,7 +18,7 @@ export default function AppLogo({
     >
       <Image
         src="/assets/artin-logo.png"
-        alt="Art-in Institute"
+        alt="Artin Institute"
         width={1560}
         height={1084}
         className={cn("h-full w-full object-contain", imageClassName)}

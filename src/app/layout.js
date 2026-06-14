@@ -12,20 +12,20 @@ const inter = Inter({
 const siteUrl = new URL(
   process.env.NEXT_PUBLIC_SITE_URL || "https://artininstitute.com",
 );
-const siteName = "Art-in Institute";
+const siteName = "Artin Institute";
 const siteDescription =
-  "Learn practical career skills with Art-in Institute's premium online courses, expert instructors, certificates, and flexible video-based learning.";
+  "Learn practical career skills with Artin Institute's premium online courses, expert instructors, certificates, and flexible video-based learning.";
 
 export const metadata = {
   metadataBase: siteUrl,
   applicationName: siteName,
   title: {
-    default: "Art-in Institute | Online Courses & Career Skills",
-    template: "%s | Art-in Institute",
+    default: "Artin Institute | Online Courses & Career Skills",
+    template: "%s | Artin Institute",
   },
   description: siteDescription,
   keywords: [
-    "Art-in Institute",
+    "Artin Institute",
     "online courses",
     "career skills",
     "professional certificates",
@@ -53,20 +53,20 @@ export const metadata = {
     locale: "en_US",
     url: "/",
     siteName,
-    title: "Art-in Institute | Online Courses & Career Skills",
+    title: "Artin Institute | Online Courses & Career Skills",
     description: siteDescription,
     images: [
       {
         url: "/artin-bgr.png",
         width: 579,
         height: 431,
-        alt: "Art-in Institute logo",
+        alt: "Artin Institute logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Art-in Institute | Online Courses & Career Skills",
+    title: "Artin Institute | Online Courses & Career Skills",
     description: siteDescription,
     images: ["/artin-bgr.png"],
   },

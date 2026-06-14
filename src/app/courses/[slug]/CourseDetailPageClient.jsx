@@ -144,7 +144,7 @@ export default function CourseDetailPageClient({ slug }) {
             type="banner"
             priority
             sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1536px) calc(100vw - 48px), 1400px"
-            className="mb-10 aspect-[16/9] w-full rounded-[10px] border border-[#dfe7f1] shadow-[0_18px_55px_rgba(15,23,42,0.08)] sm:aspect-[16/7] lg:mb-14 lg:aspect-[16/5]"
+            className="mb-10 aspect-[16/9] w-full rounded-[10px] border border-[#dfe7f1] shadow-[0_18px_55px_rgba(15,23,42,0.08)] sm:aspect-[16/7] lg:mb-14 lg:aspect-[16/7]"
           />
 
           <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_390px] xl:gap-14">
