@@ -10,7 +10,7 @@ import { SECTIONS } from "./explore-us.data";
 
 function GradientBanner({ title, subtitle }) {
   return (
-    <div className="relative flex h-[220px] w-full items-end overflow-hidden rounded-2xl bg-gradient-to-br from-[#0d2152] via-[#1a3a8f] to-[#377dff] sm:h-[260px] lg:h-[300px]">
+    <div className="relative flex h-[260px] w-full items-end overflow-hidden rounded-2xl bg-gradient-to-br from-[#0d2152] via-[#1a3a8f] to-[#377dff] sm:h-[310px] lg:h-[360px]">
       <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/5" />
       <div className="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-white/5" />
       <div className="absolute right-12 top-12 h-32 w-32 rounded-full bg-[#377dff]/30" />
@@ -30,13 +30,14 @@ function GradientBanner({ title, subtitle }) {
 
 function ImageBanner({ src, alt }) {
   return (
-    <div className="relative h-[220px] w-full overflow-hidden rounded-2xl sm:h-[260px] lg:h-[300px]">
+    <div className="overflow-hidden rounded-2xl bg-white">
       <Image
         src={src}
         alt={alt}
-        fill
-        className="object-cover"
-        sizes="(max-width: 1024px) 100vw, calc(100vw - 280px)"
+        width={1885}
+        height={670}
+        className="block h-auto w-full"
+        sizes="(max-width: 1024px) 100vw, calc(100vw - 320px)"
         priority
       />
     </div>
@@ -105,7 +106,7 @@ export default function ExploreUsContent({ activeId, onNavigate }) {
     <div className="min-w-0 flex-1">
       <Banner section={section} />
 
-      <div className="mt-6 rounded-2xl border border-[#e6edf5] bg-white p-6 shadow-sm sm:p-8">
+      <div className="mt-6 rounded-2xl border border-[#e6edf5] bg-white p-6 shadow-sm sm:p-8 lg:p-9">
         <div className="mb-6 flex items-start gap-3 border-b border-[#f0f4f9] pb-5">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#eef5ff]">
             <Icon className="h-5 w-5 text-[#377dff]" />
@@ -115,7 +116,7 @@ export default function ExploreUsContent({ activeId, onNavigate }) {
               {section.title}
             </h2>
             {section.subtitle && (
-              <p className="mt-0.5 text-[14px] text-slate-500">{section.subtitle}</p>
+              <p className="mt-1 text-[14px] leading-relaxed text-slate-500">{section.subtitle}</p>
             )}
           </div>
         </div>

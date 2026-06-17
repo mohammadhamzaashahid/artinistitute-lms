@@ -48,40 +48,43 @@ const TikTokIcon = () => (
 );
 
 
+const exploreSectionHref = (section) => `/explore-us?section=${section}`;
+
 const exploreLinks = [
-  { label: "Emirati Arabic", href: "/courses" },
-  { label: "Live Online Classes", href: "/live-online-classes" },
-  { label: "New Arrivals", href: "/courses?sort=newest" },
-  { label: "Popular Courses", href: "/courses?sort=popular" },
-  { label: "Learning Paths", href: "/learning-paths" },
-  { label: "Books", href: "/explore-us?section=books" },
+  { label: "Emirati Arabic", href: exploreSectionHref("emirati-arabic") },
+  { label: "Live Online Classes", href: exploreSectionHref("live-online-classes") },
+  { label: "New Arrivals", href: exploreSectionHref("new-arrivals") },
+  { label: "Popular Courses", href: exploreSectionHref("popular-courses") },
+  { label: "Learning Paths", href: exploreSectionHref("learning-path") },
+  { label: "Books", href: exploreSectionHref("books") },
 ];
 
 const learnerLinks = [
   { label: "My Dashboard", href: "/dashboard" },
   { label: "My Courses", href: "/dashboard/courses" },
-  { label: "Certificates", href: "/dashboard/certificates" },
+  { label: "Certificates", href: exploreSectionHref("certificates") },
   { label: "Wishlist", href: "/dashboard/wishlist" },
   { label: "Order History", href: "/dashboard/orders" },
-  { label: "Help Center", href: "/explore-us?section=help" },
+  { label: "Help Center", href: exploreSectionHref("help") },
 ];
 
 const resourceLinks = [
-  { label: "Free Lessons", href: "/free-lessons" },
-  { label: "Study Guides", href: "/explore-us?section=study-guides" },
-  { label: "Webinars", href: "/explore-us?section=webinars" },
-  { label: "Career Support", href: "/explore-us?section=career-support" },
-  { label: "Learning Support", href: "/explore-us?section=learning-support" },
-  { label: "Student Stories", href: "/explore-us?section=student-stories" },
+  { label: "Free Lessons", href: exploreSectionHref("free-lessons") },
+  { label: "Study Guides", href: exploreSectionHref("study-guides") },
+  { label: "Webinars", href: exploreSectionHref("webinars") },
+  { label: "Career Support", href: exploreSectionHref("career-support") },
+  { label: "Learning Support", href: exploreSectionHref("learning-support") },
+  { label: "Student Stories", href: exploreSectionHref("student-stories") },
 ];
 
 const instituteLinks = [
-  { label: "About Us", href: "/explore-us?section=about" },
-  { label: "Our Instructors", href: "/explore-us?section=instructors" },
-  { label: "KHDA Certification", href: "/explore-us?section=khda" },
-  { label: "Reviews", href: "/explore-us?section=reviews" },
-  { label: "News & Updates", href: "/explore-us?section=news" },
-  { label: "Contact Us", href: "/explore-us?section=contact" },
+  { label: "About Us", href: exploreSectionHref("about") },
+  { label: "Our History", href: exploreSectionHref("our-history") },
+  { label: "Our Instructors", href: exploreSectionHref("instructors") },
+  { label: "KHDA Certification", href: exploreSectionHref("khda") },
+  { label: "Reviews", href: exploreSectionHref("reviews") },
+  { label: "News & Updates", href: exploreSectionHref("news") },
+  { label: "Contact Us", href: exploreSectionHref("contact") },
 ];
 
 const socialLinks = [
@@ -122,12 +125,12 @@ const trustBadges = [
 ];
 
 const bottomLinks = [
-  { Icon: HelpCircle, label: "Help Center", href: "/explore-us?section=help" },
-  { Icon: FileText, label: "Terms of Use", href: "/terms" },
-  { Icon: Shield, label: "Privacy Policy", href: "/privacy" },
-  { Icon: RefreshCcw, label: "Refund Policy", href: "/refund-policy" },
-  { Icon: Cookie, label: "Cookie Policy", href: "/cookie-policy" },
-  { Icon: Mail, label: "Contact Us", href: "/explore-us?section=contact" },
+  { Icon: HelpCircle, label: "Help Center", href: exploreSectionHref("help") },
+  { Icon: FileText, label: "Terms of Use", href: exploreSectionHref("terms-of-use") },
+  { Icon: Shield, label: "Privacy Policy", href: exploreSectionHref("privacy-policy") },
+  { Icon: RefreshCcw, label: "Refund Policy", href: exploreSectionHref("refund-policy") },
+  { Icon: Cookie, label: "Cookie Policy", href: exploreSectionHref("cookie-policy") },
+  { Icon: Mail, label: "Contact Us", href: exploreSectionHref("contact") },
 ];
 
 function FooterLinkColumn({ title, links }) {
