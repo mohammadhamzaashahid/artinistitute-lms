@@ -534,7 +534,7 @@ export const SECTIONS = [
     group: "resources",
     label: "News & Updates",
     icon: Newspaper,
-    banner: "/assets/explore/News & Updates.png",
+    banner: "/assets/explore/News&Updates.png",
     bannerAlt: "News and Updates",
     title: "News & Updates",
     subtitle:
