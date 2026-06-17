@@ -5,6 +5,12 @@ import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { SECTIONS, SECTION_GROUPS } from "./explore-us.data";
 
+function preloadSectionBanner(section) {
+  if (!section.banner) return;
+  const img = new window.Image();
+  img.src = section.banner;
+}
+
 // ─── Desktop sidebar item ─────────────────────────────────────────────────────
 function SidebarItem({ section, isActive, onClick }) {
   const Icon = section.icon;
@@ -14,6 +20,7 @@ function SidebarItem({ section, isActive, onClick }) {
       title={section.label}
       aria-current={isActive ? "page" : undefined}
       onClick={() => onClick(section.id)}
+      onMouseEnter={() => preloadSectionBanner(section)}
       className={cn(
         "group flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#377dff]",
         isActive
@@ -61,6 +68,7 @@ function MobileTabStrip({ activeId, onNavigate }) {
             type="button"
             data-active={isActive}
             onClick={() => onNavigate(s.id)}
+            onMouseEnter={() => preloadSectionBanner(s)}
             className={cn(
               "flex min-h-10 shrink-0 snap-start items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold whitespace-nowrap transition-all",
               isActive

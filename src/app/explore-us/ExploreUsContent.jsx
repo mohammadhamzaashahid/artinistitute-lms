@@ -1,12 +1,11 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import { SECTIONS } from "./explore-us.data";
 
 // ─── Banner ───────────────────────────────────────────────────────────────────
-// If the section has a `banner` image path, it's shown as-is (no overlay).
-// Otherwise a blue gradient fallback with the section title is rendered.
 
 function GradientBanner({ title, subtitle }) {
   return (
@@ -30,7 +29,9 @@ function GradientBanner({ title, subtitle }) {
 
 function ImageBanner({ src, alt }) {
   return (
-    <div className="overflow-hidden rounded-2xl bg-white">
+    // bg-[#dde8f8] gives a brand-tinted placeholder while the image loads,
+    // preventing a white flash and eliminating layout shift.
+    <div className="overflow-hidden rounded-2xl bg-[#dde8f8]">
       <Image
         src={src}
         alt={alt}
@@ -102,11 +103,28 @@ export default function ExploreUsContent({ activeId, onNavigate }) {
   const section = SECTIONS.find((s) => s.id === activeId) ?? SECTIONS[0];
   const Icon = section.icon;
 
+  // Preload the prev and next section banners so switching is instant.
+  useEffect(() => {
+    const idx = SECTIONS.findIndex((s) => s.id === activeId);
+    [SECTIONS[idx - 1], SECTIONS[idx + 1]].forEach((s) => {
+      if (s?.banner) {
+        const img = new window.Image();
+        img.src = s.banner;
+      }
+    });
+  }, [activeId]);
+
   return (
     <div className="min-w-0 flex-1">
-      <Banner section={section} />
+      {/* key resets the banner element so the new image fades in cleanly */}
+      <div key={`banner-${activeId}`} className="animate-fade-in">
+        <Banner section={section} />
+      </div>
 
-      <div className="mt-6 rounded-2xl border border-[#e6edf5] bg-white p-6 shadow-sm sm:p-8 lg:p-9">
+      <div
+        key={`body-${activeId}`}
+        className="animate-fade-in mt-6 rounded-2xl border border-[#e6edf5] bg-white p-6 shadow-sm sm:p-8 lg:p-9"
+      >
         <div className="mb-6 flex items-start gap-3 border-b border-[#f0f4f9] pb-5">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#eef5ff]">
             <Icon className="h-5 w-5 text-[#377dff]" />
@@ -116,7 +134,9 @@ export default function ExploreUsContent({ activeId, onNavigate }) {
               {section.title}
             </h2>
             {section.subtitle && (
-              <p className="mt-1 text-[14px] leading-relaxed text-slate-500">{section.subtitle}</p>
+              <p className="mt-1 text-[14px] leading-relaxed text-slate-500">
+                {section.subtitle}
+              </p>
             )}
           </div>
         </div>

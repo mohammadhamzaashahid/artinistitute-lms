@@ -2834,7 +2834,7 @@ export const SECTIONS = [
     group: "emirati",
     label: "Alphabet & Pronunciation",
     icon: BookMarked,
-    banner: "/assets/explore/Emirati Arabic Alphabet & Pronunciation.png",
+    banner: "/assets/explore/Emirati-Arabic-Alphabet-Pronunciation.png",
     bannerAlt: "Emirati Arabic Alphabet and Pronunciation",
     title: "Emirati Arabic Alphabet & Pronunciation",
     subtitle:
