@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useOptimistic, startTransition } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import Container from "@/components/common/Container";
@@ -13,28 +13,23 @@ const DEFAULT_SECTION = SECTIONS[0].id;
 
 export default function ExploreUsClient() {
   const searchParams = useSearchParams();
-  const [activeId, setActiveId] = useState(
-    () => searchParams.get("section") ?? DEFAULT_SECTION,
-  );
+  const router = useRouter();
+
+  // Derive the true section from the URL — picks up footer/navbar link changes.
+  const urlSectionId = searchParams.get("section") ?? DEFAULT_SECTION;
+
+  // useOptimistic gives an instant local value while router.replace is in-flight,
+  // then settles back to urlSectionId once the navigation completes.
+  const [activeId, setOptimisticId] = useOptimistic(urlSectionId);
 
   const activeSection = SECTIONS.find((s) => s.id === activeId) ?? SECTIONS[0];
 
   function navigate(id) {
-    setActiveId(id);
-    window.history.replaceState(null, "", `/explore-us?section=${id}`);
+    startTransition(() => {
+      setOptimisticId(id);
+      router.replace(`/explore-us?section=${id}`, { scroll: false });
+    });
   }
-
-  // Keep state in sync when browser back/forward is used
-  useEffect(() => {
-    function onPopState() {
-      const id =
-        new URLSearchParams(window.location.search).get("section") ??
-        DEFAULT_SECTION;
-      setActiveId(id);
-    }
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, []);
 
   return (
     <div className="min-h-screen bg-[#f8fafc] py-6 lg:py-10">
