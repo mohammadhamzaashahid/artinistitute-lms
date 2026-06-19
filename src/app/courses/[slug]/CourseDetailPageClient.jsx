@@ -3,6 +3,14 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import {
+  BookOpen,
+  Calendar,
+  Download,
+  FileText,
+  Images,
+  Tag,
+} from "lucide-react";
 
 import AuthModal from "@/components/auth/AuthModal";
 import Container from "@/components/common/Container";
@@ -25,6 +33,26 @@ import {
   getPrimaryCoursePrice,
   normalizeCourseDetail,
 } from "@/lib/utils/course";
+import { formatBatchFee, formatDateRange } from "@/lib/utils/format";
+import { resolveAssetUrl } from "@/lib/utils/media";
+
+const BATCH_STATUS_STYLES = {
+  UPCOMING: { bg: "bg-[#eef5ff]", text: "text-[#377dff]", label: "Upcoming" },
+  ONGOING: { bg: "bg-[#e8fbf5]", text: "text-[#00b887]", label: "Ongoing" },
+  COMPLETED: { bg: "bg-[#f5f5f5]", text: "text-[#66788f]", label: "Completed" },
+  CANCELLED: { bg: "bg-[#fff0f0]", text: "text-[#e05252]", label: "Cancelled" },
+};
+
+function BatchStatusBadge({ status }) {
+  const s = BATCH_STATUS_STYLES[status] || BATCH_STATUS_STYLES.UPCOMING;
+  return (
+    <span
+      className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${s.bg} ${s.text}`}
+    >
+      {s.label}
+    </span>
+  );
+}
 
 export default function CourseDetailPageClient({ slug }) {
   const [authOpen, setAuthOpen] = useState(false);
@@ -186,6 +214,110 @@ export default function CourseDetailPageClient({ slug }) {
                   onLectureClick={handleLectureClick}
                 />
               </section>
+
+              {course.batches?.length > 0 && (
+                <section className="mt-14 sm:mt-20">
+                  <h2 className="text-[26px] font-bold tracking-[-0.04em] text-[#20242a]">
+                    Upcoming Batches
+                  </h2>
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    {course.batches.map((batch) => (
+                      <div
+                        key={batch.id}
+                        className="rounded-[16px] border border-[#dfe7f1] bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.05)]"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <p className="font-semibold text-[#20242a]">
+                            {batch.title || "Batch"}
+                          </p>
+                          <BatchStatusBadge status={batch.status} />
+                        </div>
+
+                        <div className="mt-4 space-y-2.5">
+                          <div className="flex items-center gap-2 text-sm text-[#66788f]">
+                            <Calendar className="h-4 w-4 shrink-0 text-[#8a9aad]" />
+                            <span>{formatDateRange(batch.startDate, batch.endDate)}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-[#66788f]">
+                            <BookOpen className="h-4 w-4 shrink-0 text-[#8a9aad]" />
+                            <span>{batch.numberOfSessions} sessions</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm font-semibold text-[#20242a]">
+                            <Tag className="h-4 w-4 shrink-0 text-[#8a9aad]" />
+                            <span>{formatBatchFee(batch.fee, batch.currency)}</span>
+                          </div>
+                        </div>
+
+                        {batch.description ? (
+                          <p className="mt-4 border-t border-[#f0f4f9] pt-4 text-sm leading-relaxed text-[#66788f]">
+                            {batch.description}
+                          </p>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {course.outlineDocumentAsset ? (
+                <section className="mt-14 sm:mt-20">
+                  <h2 className="text-[26px] font-bold tracking-[-0.04em] text-[#20242a]">
+                    Course Outline
+                  </h2>
+                  <a
+                    href={resolveAssetUrl(course.outlineDocumentAsset)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 flex items-center gap-4 rounded-[16px] border border-[#dfe7f1] bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.05)] transition hover:border-[#377dff] hover:bg-[#f5f8ff]"
+                  >
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[12px] bg-[#eef5ff]">
+                      <FileText className="h-6 w-6 text-[#377dff]" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-semibold text-[#20242a]">
+                        {course.outlineDocumentAsset.originalFilename || "Course Outline"}
+                      </p>
+                      <p className="mt-0.5 text-sm text-[#66788f]">
+                        View or download the full course outline
+                      </p>
+                    </div>
+                    <Download className="h-5 w-5 shrink-0 text-[#377dff]" />
+                  </a>
+                </section>
+              ) : null}
+
+              {course.flyerAssets?.length > 0 && (
+                <section className="mt-14 sm:mt-20">
+                  <div className="flex items-center gap-3">
+                    <h2 className="text-[26px] font-bold tracking-[-0.04em] text-[#20242a]">
+                      Course Flyers
+                    </h2>
+                    <Images className="h-5 w-5 text-[#8a9aad]" />
+                  </div>
+                  <div className="-mx-5 mt-6 flex gap-4 overflow-x-auto px-5 pb-3 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
+                    {[...course.flyerAssets]
+                      .sort((a, b) => a.displayOrder - b.displayOrder)
+                      .map(({ id, mediaAsset }) => {
+                        const url = resolveAssetUrl(mediaAsset);
+                        return url ? (
+                          <a
+                            key={id}
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="shrink-0 overflow-hidden rounded-[10px] border border-[#dfe7f1] shadow-[0_8px_24px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(15,23,42,0.12)]"
+                          >
+                            <img
+                              src={url}
+                              alt="Course flyer"
+                              className="h-[220px] w-auto max-w-[340px] object-cover"
+                            />
+                          </a>
+                        ) : null;
+                      })}
+                  </div>
+                </section>
+              )}
 
               {relatedCourses.length > 0 ? (
                 <section className="mt-20 border-t border-[#e1e8f2] pt-14 sm:mt-24 sm:pt-16">

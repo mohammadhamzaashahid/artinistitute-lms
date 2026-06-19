@@ -13,7 +13,7 @@ function buildUploadUrl(objectKey) {
   return `${base}/uploads/${encodedKey}`;
 }
 
-function resolveAssetUrl(asset) {
+export function resolveAssetUrl(asset) {
   if (!asset) return null;
 
   if (asset.objectKey && (!asset.provider || asset.provider === "LOCAL")) {

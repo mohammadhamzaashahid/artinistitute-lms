@@ -166,7 +166,7 @@ export default function SiteFooter() {
           {/* Brand column */}
           <div className="flex flex-col gap-5 md:col-span-2 lg:col-span-1">
             <AppLogo
-              className="h-30 w-42.5 justify-start py-2 lg:h-40 lg:w-58.5"
+              className="h-38 w-56 justify-start py-2 lg:h-52 lg:w-72"
               imageClassName="object-left"
               priority={false}
             />

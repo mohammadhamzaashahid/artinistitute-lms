@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { SECTIONS, SECTION_GROUPS } from "./explore-us.data";
 
@@ -17,36 +16,28 @@ function SidebarItem({ section, isActive, onClick }) {
   return (
     <button
       type="button"
-      title={section.label}
       aria-current={isActive ? "page" : undefined}
       onClick={() => onClick(section.id)}
       onMouseEnter={() => preloadSectionBanner(section)}
       className={cn(
-        "group flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#377dff]",
+        "group flex w-full items-center gap-2.5 border-l-2 py-2 pr-4 pl-3.5 text-left transition-colors duration-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-[#377dff]",
         isActive
-          ? "bg-[#377dff] text-white shadow-sm shadow-blue-200"
-          : "text-slate-600 hover:bg-[#eef5ff] hover:text-[#377dff]",
+          ? "border-[#377dff] bg-[#f4f8ff] text-[#377dff]"
+          : "border-transparent text-slate-500 hover:border-slate-200 hover:bg-slate-50/70 hover:text-slate-700",
       )}
     >
-      <span
+      <Icon
         className={cn(
-          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors",
-          isActive
-            ? "bg-white/20 text-white"
-            : "bg-[#f0f5ff] text-[#377dff] group-hover:bg-[#ddeaff]",
+          "h-3.5 w-3.5 shrink-0 transition-colors",
+          isActive ? "text-[#377dff]" : "text-slate-350 group-hover:text-slate-500",
         )}
-      >
-        <Icon className="h-4 w-4" />
-      </span>
-      <span className="min-w-0 flex-1 text-[13.5px] font-semibold leading-snug">
+      />
+      <span className={cn("text-[12.5px] leading-snug", isActive ? "font-semibold" : "font-medium")}>
         {section.label}
       </span>
-      {isActive && <ChevronRight className="ml-auto h-3.5 w-3.5 shrink-0 text-white/70" />}
     </button>
   );
 }
-
-// ─── Mobile horizontal tab strip ─────────────────────────────────────────────
 function MobileTabStrip({ activeId, onNavigate }) {
   const scrollRef = useRef(null);
 
@@ -70,13 +61,13 @@ function MobileTabStrip({ activeId, onNavigate }) {
             onClick={() => onNavigate(s.id)}
             onMouseEnter={() => preloadSectionBanner(s)}
             className={cn(
-              "flex min-h-10 shrink-0 snap-start items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold whitespace-nowrap transition-all",
+              "flex min-h-9 shrink-0 snap-start items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[12.5px] font-medium whitespace-nowrap transition-colors",
               isActive
-                ? "bg-[#377dff] text-white shadow-sm"
-                : "bg-[#f0f5ff] text-slate-600 hover:bg-[#ddeaff] hover:text-[#377dff]",
+                ? "border-[#377dff] bg-[#377dff] text-white"
+                : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700",
             )}
           >
-            <Icon className="h-3.5 w-3.5" />
+            <Icon className="h-3 w-3" />
             {s.label}
           </button>
         );
@@ -84,8 +75,6 @@ function MobileTabStrip({ activeId, onNavigate }) {
     </div>
   );
 }
-
-// ─── Desktop sidebar with group headers ──────────────────────────────────────
 export function DesktopSidebar({ activeId, onNavigate }) {
   const visibleGroups = SECTION_GROUPS.map((group) => ({
     ...group,
@@ -93,25 +82,28 @@ export function DesktopSidebar({ activeId, onNavigate }) {
   })).filter((group) => group.sections.length > 0);
 
   return (
-    <aside className="hidden w-[256px] shrink-0 lg:block xl:w-[272px]">
-      <div className="sticky top-[90px] max-h-[calc(100vh-110px)] overflow-y-auto rounded-2xl border border-[#e6edf5] bg-white p-3.5 shadow-sm [scrollbar-color:#cbd5e1_transparent] [scrollbar-width:thin]">
-        <div className="mb-3 border-b border-[#f0f4f9] px-2 pb-3">
-          <p className="text-[11px] font-bold tracking-[2px] text-[#377dff] uppercase">
+    <aside className="hidden w-57 shrink-0 lg:block xl:w-61">
+      <div className="sticky top-22.5 rounded-xl border border-slate-100 bg-white shadow-[0_1px_4px_rgba(0,0,0,0.05)]">
+        {/* Header */}
+        <div className="border-b border-slate-100 px-4 py-3">
+          <p className="text-[9.5px] font-bold tracking-[3px] text-slate-400 uppercase">
             Explore Us
           </p>
         </div>
-        {visibleGroups.map((group, index) => {
-          return (
-            <div key={group.id} className="mb-3.5 last:mb-0">
-              <div className="mb-2 flex items-center justify-between px-3">
-                <p className="text-[10.5px] font-bold tracking-[2px] text-slate-400 uppercase">
+
+        {/* Groups */}
+        <div className="py-1.5">
+          {visibleGroups.map((group, index) => (
+            <div key={group.id}>
+              {/* Group label */}
+              <div className="px-4 pb-1 pt-3">
+                <p className="text-[9px] font-bold tracking-[2.5px] text-slate-300 uppercase">
                   {group.label}
                 </p>
-                <span className="rounded-full bg-[#f0f5ff] px-2 py-0.5 text-[10.5px] font-bold text-[#377dff]">
-                  {group.sections.length}
-                </span>
               </div>
-              <nav className="flex flex-col gap-1">
+
+              {/* Items */}
+              <nav>
                 {group.sections.map((section) => (
                   <SidebarItem
                     key={section.id}
@@ -121,12 +113,21 @@ export function DesktopSidebar({ activeId, onNavigate }) {
                   />
                 ))}
               </nav>
+
+              {/* Divider */}
               {index < visibleGroups.length - 1 && (
-                <div className="mt-3.5 border-b border-[#f0f4f9]" />
+                <div className="mx-4 mt-2.5 border-b border-slate-100" />
               )}
             </div>
-          );
-        })}
+          ))}
+        </div>
+
+        {/* Footer rule */}
+        <div className="border-t border-slate-100 px-4 py-2.5">
+          <p className="text-[9px] tracking-wide text-slate-300">
+            Artin Institute &mdash; All sections
+          </p>
+        </div>
       </div>
     </aside>
   );
