@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import AppProviders from "@/components/providers/AppProviders";
 import SiteNavbar from "@/components/layout/SiteNavbar";
 import SiteFooter from "@/components/layout/SiteFooter";
+import SiteLayout from "@/components/providers/SiteLayout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,12 +89,18 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white text-slate-950 antialiased`}>
+      <body
+        className={`${inter.className} bg-white text-slate-950 antialiased`}
+      >
         <AppProviders>
           <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#eef2ff_0,transparent_34%),linear-gradient(to_bottom,#ffffff,#f8fafc)]">
-            <SiteNavbar />
+            {/* <SiteNavbar />
             <main>{children}</main>
-            <SiteFooter />
+            <SiteFooter /> */}
+
+            <AppProviders>
+              <SiteLayout>{children}</SiteLayout>
+            </AppProviders>
           </div>
         </AppProviders>
       </body>
