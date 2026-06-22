@@ -203,8 +203,6 @@ export default function SiteFooter() {
               </div>
             </div>
           </div>
-
-          {/* Nav columns */}
           <FooterLinkColumn title="Explore" links={exploreLinks} />
           <FooterLinkColumn title="For Learners" links={learnerLinks} />
           <FooterLinkColumn title="Resources" links={resourceLinks} />

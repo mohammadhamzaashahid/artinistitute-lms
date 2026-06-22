@@ -27,4 +27,13 @@ export const queryKeys = {
     myPurchases: (params) => ["payments", "my-purchases", params],
     sessionStatus: (sessionId) => ["payments", "session-status", sessionId],
   },
+
+  books: {
+    all: ["books"],
+    list: (params) => ["books", "list", params],
+    detail: (slug) => ["books", "detail", slug],
+    audioPlayback: (bookId, audioFileId) => ["books", "audio-playback", bookId, audioFileId],
+    myOrders: (params) => ["books", "my-orders", params],
+    myOrderDetail: (orderId) => ["books", "my-order", orderId],
+  },
 };

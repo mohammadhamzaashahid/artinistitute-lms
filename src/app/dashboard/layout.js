@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BookOpen,
   BookOpenCheck,
   CreditCard,
   LayoutDashboard,
@@ -26,6 +27,12 @@ const navItems = [
     shortLabel: "Courses",
     href: "/dashboard/my-courses",
     icon: BookOpenCheck,
+  },
+  {
+    label: "My books",
+    shortLabel: "Books",
+    href: "/dashboard/books",
+    icon: BookOpen,
   },
   {
     label: "Subscriptions",
