@@ -168,18 +168,18 @@ export default function CourseDetailPageClient({ slug }) {
           ) : null}
         </Container>
 
-        <Container className="max-w-[1885px]">
-          <CourseListImage
-            course={course}
-            type="banner"
-            priority
-            imageWidth={1885}
-            imageHeight={670}
-            sizes="(max-width: 768px) calc(100vw - 40px), (max-width: 1885px) calc(100vw - 64px), 1885px"
-            className="mb-10 w-full rounded-[10px] border border-[#dfe7f1] shadow-[0_18px_55px_rgba(15,23,42,0.08)] lg:mb-14"
-            imageClassName="group-hover:scale-100"
-          />
-        </Container>
+        {course.bannerImageAsset && (
+          <Container>
+            <CourseListImage
+              course={course}
+              type="banner"
+              priority
+              sizes="(max-width: 768px) calc(100vw - 40px), (max-width: 1280px) calc(100vw - 64px), 1280px"
+              className="mb-10 aspect-video w-full rounded-[10px] border border-[#dfe7f1] shadow-[0_18px_55px_rgba(15,23,42,0.08)] lg:mb-14"
+              imageClassName="group-hover:scale-100"
+            />
+          </Container>
+        )}
 
         <Container>
           <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_390px] xl:gap-14">
