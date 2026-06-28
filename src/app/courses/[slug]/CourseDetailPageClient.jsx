@@ -168,7 +168,6 @@ export default function CourseDetailPageClient({ slug }) {
           ) : null}
         </Container>
 
-        {course.bannerImageAsset && (
           <Container>
             <CourseListImage
               course={course}
@@ -179,7 +178,7 @@ export default function CourseDetailPageClient({ slug }) {
               imageClassName="group-hover:scale-100"
             />
           </Container>
-        )}
+    
 
         <Container>
           <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_390px] xl:gap-14">
