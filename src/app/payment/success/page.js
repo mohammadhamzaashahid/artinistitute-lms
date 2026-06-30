@@ -36,6 +36,7 @@ function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const courseSlug = searchParams.get("slug");
+  const isLiveClass = searchParams.get("entityType") === "live-class";
 
   const queryClient = useQueryClient();
   const user = useAuthStore((state) => state.user);
@@ -49,23 +50,30 @@ function PaymentSuccessContent() {
   });
 
   const status = sessionQuery.data?.status;
-  const resolvedSlug = sessionQuery.data?.courseSlug || courseSlug;
+  const resolvedSlug =
+    sessionQuery.data?.liveClassSlug || sessionQuery.data?.courseSlug || courseSlug;
   const isConfirmed = CONFIRMED_STATUSES.includes(status);
+
+  const detailPath = isLiveClass ? `/live-classes/${resolvedSlug}` : `/courses/${resolvedSlug}`;
+  const dashboardPath = isLiveClass ? "/dashboard/my-live-classes" : "/dashboard/my-courses";
+  const browsePath = isLiveClass ? "/live-classes" : "/courses";
 
   useEffect(() => {
     if (!isConfirmed) return;
 
     clearTimeout(timerRef.current);
 
-    queryClient.invalidateQueries({ queryKey: ["courses"] });
+    queryClient.invalidateQueries({ queryKey: [isLiveClass ? "liveClasses" : "courses"] });
     queryClient.invalidateQueries({ queryKey: ["payments"] });
 
     if (resolvedSlug) {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.courses.detail(resolvedSlug),
+        queryKey: isLiveClass
+          ? queryKeys.liveClasses.detail(resolvedSlug)
+          : queryKeys.courses.detail(resolvedSlug),
       });
     }
-  }, [isConfirmed, resolvedSlug, queryClient]);
+  }, [isConfirmed, resolvedSlug, isLiveClass, queryClient]);
 
   useEffect(() => {
     if (!sessionId || isConfirmed) return;
@@ -81,7 +89,13 @@ function PaymentSuccessContent() {
   }
 
   if (!sessionId) {
-    return <GenericSuccess queryClient={queryClient} courseSlug={courseSlug} />;
+    return (
+      <GenericSuccess
+        queryClient={queryClient}
+        slug={courseSlug}
+        isLiveClass={isLiveClass}
+      />
+    );
   }
 
   if (!isConfirmed && !timedOut) {
@@ -100,7 +114,8 @@ function PaymentSuccessContent() {
                 </h1>
 
                 <p className="mt-2 text-[15px] leading-6 text-white/80">
-                  Payment received. We&apos;re confirming your course access — this usually takes a few seconds.
+                  Payment received. We&apos;re confirming your{" "}
+                  {isLiveClass ? "seat" : "course access"} — this usually takes a few seconds.
                 </p>
               </div>
 
@@ -132,7 +147,7 @@ function PaymentSuccessContent() {
                 </h1>
 
                 <p className="mt-2 text-[15px] leading-6 text-[#66788f]">
-                  Your payment was successful, but access activation is taking longer than usual. This happens occasionally — your course will be available within a few minutes.
+                  Your payment was successful, but access activation is taking longer than usual. This happens occasionally — your {isLiveClass ? "seat" : "course"} will be available within a few minutes.
                 </p>
 
                 <div className="mt-7 space-y-3">
@@ -140,8 +155,8 @@ function PaymentSuccessContent() {
                     asChild
                     className="h-[52px] w-full rounded-[10px] bg-[#377dff] text-[15px] font-bold text-white hover:bg-[#236bf1]"
                   >
-                    <Link href="/dashboard/my-courses">
-                      Check my courses
+                    <Link href={dashboardPath}>
+                      {isLiveClass ? "Check my live classes" : "Check my courses"}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -151,8 +166,8 @@ function PaymentSuccessContent() {
                     variant="ghost"
                     className="h-11 w-full rounded-[10px] text-[14px] font-bold text-[#66788f] hover:bg-[#f4f7fb]"
                   >
-                    <Link href="/dashboard/subscriptions">
-                      View subscriptions
+                    <Link href={isLiveClass ? "/live-classes" : "/dashboard/subscriptions"}>
+                      {isLiveClass ? "Browse live classes" : "View subscriptions"}
                     </Link>
                   </Button>
                 </div>
@@ -179,27 +194,51 @@ function PaymentSuccessContent() {
               </h1>
 
               <p className="mt-2 text-[15px] leading-6 text-white/80">
-                Access confirmed. Every lecture is now unlocked and ready to play.
+                {isLiveClass
+                  ? "Your seat is confirmed for this live session."
+                  : "Access confirmed. Every lecture is now unlocked and ready to play."}
               </p>
             </div>
 
             <div className="px-8 py-7">
               <div className="space-y-3">
-                <ConfirmItem
-                  icon={BookOpenCheck}
-                  title="All lectures unlocked"
-                  description="Every lesson in the course is now available to you."
-                />
-                <ConfirmItem
-                  icon={Headphones}
-                  title="Stream from any device"
-                  description="Listen on mobile, tablet, or desktop — wherever you learn best."
-                />
-                <ConfirmItem
-                  icon={Sparkles}
-                  title="Subscription active"
-                  description="Your billing cycle and renewal dates are tracked in your dashboard."
-                />
+                {isLiveClass ? (
+                  <>
+                    <ConfirmItem
+                      icon={Sparkles}
+                      title="Seat reserved"
+                      description="You're registered for this scheduled session."
+                    />
+                    <ConfirmItem
+                      icon={Headphones}
+                      title="Joining link unlocks when live"
+                      description="Find it on the live class page right when the session starts."
+                    />
+                    <ConfirmItem
+                      icon={BookOpenCheck}
+                      title="Add it to your calendar"
+                      description="Set a reminder so you don't miss the start time."
+                    />
+                  </>
+                ) : (
+                  <>
+                    <ConfirmItem
+                      icon={BookOpenCheck}
+                      title="All lectures unlocked"
+                      description="Every lesson in the course is now available to you."
+                    />
+                    <ConfirmItem
+                      icon={Headphones}
+                      title="Stream from any device"
+                      description="Listen on mobile, tablet, or desktop — wherever you learn best."
+                    />
+                    <ConfirmItem
+                      icon={Sparkles}
+                      title="Subscription active"
+                      description="Your billing cycle and renewal dates are tracked in your dashboard."
+                    />
+                  </>
+                )}
               </div>
 
               {sessionId ? (
@@ -211,10 +250,10 @@ function PaymentSuccessContent() {
               <div className="mt-7 space-y-3">
                 {resolvedSlug ? (
                   <Button
-                    onClick={() => router.push(`/courses/${resolvedSlug}`)}
+                    onClick={() => router.push(detailPath)}
                     className="h-[52px] w-full rounded-[10px] bg-[#377dff] text-[15px] font-bold text-white hover:bg-[#236bf1]"
                   >
-                    Start listening now
+                    {isLiveClass ? "View live class" : "Start listening now"}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 ) : (
@@ -222,8 +261,8 @@ function PaymentSuccessContent() {
                     asChild
                     className="h-[52px] w-full rounded-[10px] bg-[#377dff] text-[15px] font-bold text-white hover:bg-[#236bf1]"
                   >
-                    <Link href="/dashboard/my-courses">
-                      Go to my courses
+                    <Link href={dashboardPath}>
+                      {isLiveClass ? "Go to my live classes" : "Go to my courses"}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -234,7 +273,9 @@ function PaymentSuccessContent() {
                   variant="ghost"
                   className="h-11 w-full rounded-[10px] text-[14px] font-bold text-[#66788f] hover:bg-[#f4f7fb] hover:text-[#20242a]"
                 >
-                  <Link href="/courses">Browse more courses</Link>
+                  <Link href={browsePath}>
+                    {isLiveClass ? "Browse more live classes" : "Browse more courses"}
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -279,11 +320,14 @@ function RedirectingState({ message }) {
   );
 }
 
-function GenericSuccess({ queryClient, courseSlug }) {
+function GenericSuccess({ queryClient, slug, isLiveClass }) {
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["courses"] });
+    queryClient.invalidateQueries({ queryKey: [isLiveClass ? "liveClasses" : "courses"] });
     queryClient.invalidateQueries({ queryKey: ["payments"] });
-  }, [queryClient]);
+  }, [queryClient, isLiveClass]);
+
+  const detailPath = isLiveClass ? `/live-classes/${slug}` : `/courses/${slug}`;
+  const dashboardPath = isLiveClass ? "/dashboard/my-live-classes" : "/dashboard/my-courses";
 
   return (
     <section className="min-h-screen bg-[#f6f9ff] py-14 sm:py-20">
@@ -303,16 +347,18 @@ function GenericSuccess({ queryClient, courseSlug }) {
             </p>
 
             <div className="mt-7 space-y-3">
-              {courseSlug ? (
+              {slug ? (
                 <Button asChild className="h-[52px] w-full rounded-[10px] bg-[#377dff] text-[15px] font-bold text-white hover:bg-[#236bf1]">
-                  <Link href={`/courses/${courseSlug}`}>
-                    Go to course <ArrowRight className="ml-2 h-4 w-4" />
+                  <Link href={detailPath}>
+                    {isLiveClass ? "Go to live class" : "Go to course"}{" "}
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               ) : (
                 <Button asChild className="h-[52px] w-full rounded-[10px] bg-[#377dff] text-[15px] font-bold text-white hover:bg-[#236bf1]">
-                  <Link href="/dashboard/my-courses">
-                    My courses <ArrowRight className="ml-2 h-4 w-4" />
+                  <Link href={dashboardPath}>
+                    {isLiveClass ? "My live classes" : "My courses"}{" "}
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               )}

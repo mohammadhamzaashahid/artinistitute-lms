@@ -7,6 +7,7 @@ import {
   Compass,
   Grid3X3,
   Menu,
+  Radio,
   Search,
   ShoppingCart,
   X,
@@ -51,6 +52,7 @@ export default function SiteNavbar() {
     { href: "/courses", icon: Grid3X3, label: "All courses" },
     { href: "/books", icon: BookOpen, label: "Books" },
     { href: "/explore-us", icon: Compass, label: "Explore Us" },
+    { href: "/live-classes", icon: Radio, label: "Live Classes" },
   ];
 
   return (

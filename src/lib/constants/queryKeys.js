@@ -9,6 +9,12 @@ export const queryKeys = {
     detail: (slug) => ["courses", "detail", slug],
   },
 
+  liveClasses: {
+    all: ["liveClasses"],
+    list: (params) => ["liveClasses", "list", params],
+    detail: (slug) => ["liveClasses", "detail", slug],
+  },
+
   lectures: {
     playback: (lectureId) => ["lectures", "playback", lectureId],
   },
@@ -26,6 +32,8 @@ export const queryKeys = {
     mySubscriptions: (params) => ["payments", "my-subscriptions", params],
     myPurchases: (params) => ["payments", "my-purchases", params],
     sessionStatus: (sessionId) => ["payments", "session-status", sessionId],
+    myLiveClassPurchases: (params) => ["payments", "my-live-class-purchases", params],
+    myAccessibleLiveClasses: (params) => ["payments", "my-accessible-live-classes", params],
   },
 
   books: {

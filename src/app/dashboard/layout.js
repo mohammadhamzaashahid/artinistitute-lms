@@ -7,6 +7,7 @@ import {
   BookOpenCheck,
   CreditCard,
   LayoutDashboard,
+  Radio,
   ReceiptText,
   UserRound,
 } from "lucide-react";
@@ -33,6 +34,12 @@ const navItems = [
     shortLabel: "Books",
     href: "/dashboard/books",
     icon: BookOpen,
+  },
+  {
+    label: "Live classes",
+    shortLabel: "Live",
+    href: "/dashboard/my-live-classes",
+    icon: Radio,
   },
   {
     label: "Subscriptions",

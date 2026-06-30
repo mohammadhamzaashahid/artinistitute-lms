@@ -35,3 +35,9 @@ export function getCourseImage(course, type = "thumbnail") {
 
   return thumbnailUrl || bannerUrl || "/images/course-placeholder.jpg";
 }
+
+export function getLiveClassImage(liveClass) {
+  if (!liveClass) return "/images/course-placeholder.jpg";
+
+  return resolveAssetUrl(liveClass.bannerImageAsset) || "/images/course-placeholder.jpg";
+}

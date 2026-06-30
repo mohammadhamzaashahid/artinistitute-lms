@@ -19,6 +19,9 @@ export default function PaymentCancelPage() {
 function PaymentCancelContent() {
   const searchParams = useSearchParams();
   const slug = searchParams.get("slug");
+  const isLiveClass = searchParams.get("entityType") === "live-class";
+  const detailPath = isLiveClass ? `/live-classes/${slug}` : `/courses/${slug}`;
+  const browsePath = isLiveClass ? "/live-classes" : "/courses";
 
   return (
     <section className="min-h-screen bg-[#f6f9ff] py-14 sm:py-20">
@@ -45,9 +48,9 @@ function PaymentCancelContent() {
                     asChild
                     className="h-[52px] w-full rounded-[10px] bg-[#377dff] text-[15px] font-bold text-white hover:bg-[#236bf1]"
                   >
-                    <Link href={`/courses/${slug}`}>
+                    <Link href={detailPath}>
                       <ArrowLeft className="mr-2 h-4 w-4" />
-                      Return to course
+                      {isLiveClass ? "Return to live class" : "Return to course"}
                     </Link>
                   </Button>
                 ) : null}
@@ -57,7 +60,9 @@ function PaymentCancelContent() {
                   variant="ghost"
                   className="h-11 w-full rounded-[10px] text-[14px] font-bold text-[#66788f] hover:bg-[#f4f7fb] hover:text-[#20242a]"
                 >
-                  <Link href="/courses">Browse courses</Link>
+                  <Link href={browsePath}>
+                    {isLiveClass ? "Browse live classes" : "Browse courses"}
+                  </Link>
                 </Button>
               </div>
             </div>

@@ -4,7 +4,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createCheckoutSession,
   createCustomerPortalSession,
+  createLiveClassCheckoutSession,
+  getMyAccessibleLiveClasses,
   getMyCourses,
+  getMyLiveClassPurchases,
   getMyPurchases,
   getMySubscriptions,
   getSessionStatus,
@@ -74,6 +77,41 @@ export function useCreateCustomerPortalSession() {
     },
     onError: (error) => {
       toast.error(getApiErrorMessage(error, "Unable to open billing portal"));
+    },
+  });
+}
+
+export function useMyLiveClassPurchases(params = { page: 1, limit: 20 }) {
+  return useQuery({
+    queryKey: queryKeys.payments.myLiveClassPurchases(params),
+    queryFn: () => getMyLiveClassPurchases(params),
+    enabled: true,
+    staleTime: 1000 * 60,
+  });
+}
+
+export function useMyAccessibleLiveClasses(params = { page: 1, limit: 20 }) {
+  return useQuery({
+    queryKey: queryKeys.payments.myAccessibleLiveClasses(params),
+    queryFn: () => getMyAccessibleLiveClasses(params),
+    enabled: true,
+    staleTime: 1000 * 60,
+  });
+}
+
+export function useCreateLiveClassCheckoutSession() {
+  return useMutation({
+    mutationFn: createLiveClassCheckoutSession,
+    onSuccess: (data) => {
+      if (data?.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+        return;
+      }
+
+      toast.error("Checkout URL was not returned");
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Unable to start checkout"));
     },
   });
 }

@@ -49,3 +49,29 @@ export async function getSessionStatus(sessionId) {
 
   return data.data;
 }
+
+export async function createLiveClassCheckoutSession(payload) {
+  const { data } = await apiClient.post(
+    "/api/payments/live-classes/create-checkout-session",
+    payload
+  );
+
+  return data.data;
+}
+
+export async function getMyLiveClassPurchases(params = {}) {
+  const { data } = await apiClient.get(
+    "/api/payments/live-classes/my-purchases",
+    { params }
+  );
+
+  return data.data;
+}
+
+export async function getMyAccessibleLiveClasses(params = {}) {
+  const { data } = await apiClient.get("/api/payments/live-classes/my-classes", {
+    params,
+  });
+
+  return data.data;
+}
