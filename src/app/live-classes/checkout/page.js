@@ -20,7 +20,7 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import { useLiveClassDetail } from "@/lib/hooks/useLiveClasses";
 import { useCreateLiveClassCheckoutSession } from "@/lib/hooks/usePayments";
-import { formatDate, formatDuration, formatPrice } from "@/lib/utils/format";
+import { formatDate, formatDurationDays, formatPrice } from "@/lib/utils/format";
 import {
   formatLiveClassTime,
   getLiveClassPrice,
@@ -157,7 +157,7 @@ function CheckoutContent() {
                       />
                       <LiveClassStat
                         icon={Clock}
-                        label={formatDuration((liveClass.timeDuration || 0) * 60)}
+                        label={formatDurationDays(liveClass.durationDays)}
                       />
                     </div>
                   </div>

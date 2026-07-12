@@ -8,7 +8,7 @@ import LiveClassImage from "@/components/live-classes/LiveClassImage";
 import LiveClassStatusBadge from "@/components/live-classes/LiveClassStatusBadge";
 import { Button } from "@/components/ui/button";
 import { useMyAccessibleLiveClasses } from "@/lib/hooks/usePayments";
-import { formatDate, formatDuration } from "@/lib/utils/format";
+import { formatDate, formatDurationDays } from "@/lib/utils/format";
 import { formatLiveClassTime, getLiveClassPhase } from "@/lib/utils/liveClass";
 
 export default function MyLiveClassesPage() {
@@ -125,7 +125,7 @@ function LiveClassPurchaseCard({ liveClass }) {
             </span>
             <span className="inline-flex items-center gap-1.5">
               <Clock3 className="h-3.5 w-3.5 text-[#8a9aad]" />
-              {formatDuration((liveClass.timeDuration || 0) * 60)}
+              {formatDurationDays(liveClass.durationDays)}
             </span>
           </div>
         </div>

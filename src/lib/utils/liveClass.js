@@ -25,6 +25,22 @@ export function getLiveClassMaterials(liveClass) {
   );
 }
 
+export function getLiveClassVideos(liveClass) {
+  if (!liveClass?.videos?.length) return [];
+  return [...liveClass.videos].sort(
+    (a, b) => (a.videoOrder || 0) - (b.videoOrder || 0)
+  );
+}
+
+export function canPlayLiveClassVideo(video) {
+  return Boolean(video?.canPlay);
+}
+
+export function isLiveClassVideoLocked(video) {
+  if (typeof video?.isLocked === "boolean") return video.isLocked;
+  return !video?.canPlay;
+}
+
 const PHASE = {
   UPCOMING: "UPCOMING",
   LIVE: "LIVE",

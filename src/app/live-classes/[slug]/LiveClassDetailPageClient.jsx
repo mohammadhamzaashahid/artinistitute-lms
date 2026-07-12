@@ -10,18 +10,25 @@ import LiveClassImage from "@/components/live-classes/LiveClassImage";
 import LiveClassDetailHeader from "@/components/live-class-detail/LiveClassDetailHeader";
 import LiveClassDetailSidebar from "@/components/live-class-detail/LiveClassDetailSidebar";
 import LiveClassDetailSkeleton from "@/components/live-class-detail/LiveClassDetailSkeleton";
+import LiveClassVideoSection from "@/components/live-class-detail/LiveClassVideoSection";
+import LiveClassVideoPlaybackModal from "@/components/live-class-detail/LiveClassVideoPlaybackModal";
 import MobileLiveClassActionBar from "@/components/live-class-detail/MobileLiveClassActionBar";
 import { useLiveClassDetail } from "@/lib/hooks/useLiveClasses";
+import { useLiveClassVideoPlayback } from "@/lib/hooks/useLiveClassVideoPlayback";
 import { useAuthStore } from "@/lib/store/auth.store";
 import {
+  canPlayLiveClassVideo,
   canUserAccessLiveClass,
   getLiveClassPhase,
   getLiveClassPrice,
+  getLiveClassVideos,
   normalizeLiveClassDetail,
 } from "@/lib/utils/liveClass";
 
 export default function LiveClassDetailPageClient({ slug }) {
   const [authOpen, setAuthOpen] = useState(false);
+  const [videoPlaybackOpen, setVideoPlaybackOpen] = useState(false);
+  const [activeVideoPlayback, setActiveVideoPlayback] = useState(null);
 
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
@@ -29,11 +36,29 @@ export default function LiveClassDetailPageClient({ slug }) {
   const isLoggedIn = Boolean(user && accessToken);
 
   const liveClassQuery = useLiveClassDetail(slug);
+  const videoPlaybackMutation = useLiveClassVideoPlayback();
 
   const liveClass = normalizeLiveClassDetail(liveClassQuery.data);
   const price = getLiveClassPrice(liveClass);
   const hasAccess = canUserAccessLiveClass(liveClass);
   const phase = getLiveClassPhase(liveClass);
+  const videos = getLiveClassVideos(liveClass);
+
+  async function handleVideoClick(video) {
+    if (!canPlayLiveClassVideo(video)) {
+      if (!isLoggedIn) {
+        setAuthOpen(true);
+        return;
+      }
+
+      toast.info("Purchase this live class to unlock this video.");
+      return;
+    }
+
+    const result = await videoPlaybackMutation.mutateAsync(video.id);
+    setActiveVideoPlayback(result);
+    setVideoPlaybackOpen(true);
+  }
 
   function handleCheckout() {
     if (!liveClass?.slug || !price?.id) {
@@ -92,6 +117,16 @@ export default function LiveClassDetailPageClient({ slug }) {
             <main className="min-w-0">
               <LiveClassDetailHeader liveClass={liveClass} />
 
+              <LiveClassVideoSection
+                videos={videos}
+                loadingVideoId={
+                  videoPlaybackMutation.isPending
+                    ? videoPlaybackMutation.variables
+                    : null
+                }
+                onVideoClick={handleVideoClick}
+              />
+
               <div className="mt-12 lg:hidden">
                 <LiveClassDetailSidebar
                   liveClass={liveClass}
@@ -129,6 +164,12 @@ export default function LiveClassDetailPageClient({ slug }) {
       />
 
       <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
+
+      <LiveClassVideoPlaybackModal
+        open={videoPlaybackOpen}
+        onOpenChange={setVideoPlaybackOpen}
+        playbackData={activeVideoPlayback}
+      />
     </>
   );
 }

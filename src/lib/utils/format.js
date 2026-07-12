@@ -49,6 +49,12 @@ export function formatBatchFee(fee, currency = "USD") {
   }
 }
 
+export function formatDurationDays(days) {
+  const total = Number(days || 0);
+  if (!total) return "—";
+  return `${total} day${total === 1 ? "" : "s"}`;
+}
+
 export function formatDuration(seconds) {
   const totalSeconds = Number(seconds || 0);
 

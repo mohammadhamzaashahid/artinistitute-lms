@@ -3,7 +3,7 @@
 import { Calendar, Clock3, Download, FileText } from "lucide-react";
 
 import LiveClassStatusBadge from "@/components/live-classes/LiveClassStatusBadge";
-import { formatDate, formatDuration } from "@/lib/utils/format";
+import { formatDate, formatDurationDays } from "@/lib/utils/format";
 import { formatLiveClassTime, getLiveClassMaterials } from "@/lib/utils/liveClass";
 import { resolveAssetUrl } from "@/lib/utils/media";
 
@@ -35,7 +35,7 @@ export default function LiveClassDetailHeader({ liveClass }) {
 
         <span className="inline-flex items-center gap-2">
           <Clock3 className="h-4 w-4 text-[#377dff]" />
-          {formatDuration((liveClass?.timeDuration || 0) * 60)}
+          {formatDurationDays(liveClass?.durationDays)} access
         </span>
       </div>
 

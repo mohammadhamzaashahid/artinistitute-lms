@@ -6,7 +6,7 @@ import { Calendar, Clock3 } from "lucide-react";
 import LiveClassImage from "@/components/live-classes/LiveClassImage";
 import LiveClassStatusBadge from "@/components/live-classes/LiveClassStatusBadge";
 import PriceText from "@/components/common/PriceText";
-import { formatDate, formatDuration } from "@/lib/utils/format";
+import { formatDate, formatDurationDays } from "@/lib/utils/format";
 import { formatLiveClassTime, getLiveClassPrice } from "@/lib/utils/liveClass";
 
 export default function LiveClassCard({ liveClass, index = 0 }) {
@@ -52,7 +52,7 @@ export default function LiveClassCard({ liveClass, index = 0 }) {
 
             <span className="inline-flex items-center gap-1.5">
               <Clock3 className="h-4 w-4 text-[#c5d0de]" />
-              {formatDuration((liveClass?.timeDuration || 0) * 60)}
+              {formatDurationDays(liveClass?.durationDays)}
             </span>
           </div>
         </div>
