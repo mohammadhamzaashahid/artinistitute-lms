@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarDays, CheckCircle2, ReceiptText, XCircle } from "lucide-react";
+import { CalendarDays, CheckCircle2, ExternalLink, ReceiptText, XCircle } from "lucide-react";
 
 import EmptyState from "@/components/common/EmptyState";
 import { useMyPurchases } from "@/lib/hooks/usePayments";
@@ -176,6 +176,18 @@ function PurchaseCard({ purchase }) {
             value="Lifetime access"
           />
         </div>
+
+        {purchase.receiptUrl ? (
+          <a
+            href={purchase.receiptUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-bold text-[#377dff] hover:underline"
+          >
+            View receipt
+            <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        ) : null}
       </div>
     </article>
   );

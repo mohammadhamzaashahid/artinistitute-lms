@@ -7,13 +7,13 @@ import TestimonialsSection from "@/components/home/TestimonialsSection";
 export default function HomePage() {
   return (
     <>
-      {/* <HeroSection />
+      <HeroSection />
       <FeatureStrip />
       <FeaturedCoursesSection />
       {/* <TeachSection /> */}
-      {/* <TestimonialsSection /> */}
+      <TestimonialsSection />
 
-      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4f4f2] px-6 py-16">
+      {/* <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4f4f2] px-6 py-16">
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95),_transparent_45%)]"
@@ -73,7 +73,7 @@ export default function HomePage() {
           aria-hidden="true"
           className="absolute bottom-[-180px] left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/80 blur-3xl"
         />
-      </main>
+      </main> */}
     </>
   );
 }

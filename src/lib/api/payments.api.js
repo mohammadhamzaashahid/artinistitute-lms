@@ -42,6 +42,14 @@ export async function getMyPurchases(params = {}) {
   return data.data;
 }
 
+export async function getMyTransactions(params = {}) {
+  const { data } = await apiClient.get("/api/payments/my-transactions", {
+    params,
+  });
+
+  return data.data;
+}
+
 export async function getSessionStatus(sessionId) {
   const { data } = await apiClient.get("/api/payments/session-status", {
     params: { sessionId },

@@ -10,6 +10,7 @@ import {
   getMyLiveClassPurchases,
   getMyPurchases,
   getMySubscriptions,
+  getMyTransactions,
   getSessionStatus,
 } from "@/lib/api/payments.api";
 import { queryKeys } from "@/lib/constants/queryKeys";
@@ -42,6 +43,15 @@ export function useMyPurchases(params = { page: 1, limit: 20 }) {
     queryFn: () => getMyPurchases(params),
     enabled: true,
     staleTime: 1000 * 60,
+  });
+}
+
+export function useMyTransactions(params = { page: 1, limit: 20 }, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.payments.myTransactions(params),
+    queryFn: () => getMyTransactions(params),
+    staleTime: 1000 * 60,
+    ...options,
   });
 }
 

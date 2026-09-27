@@ -1,13 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { AlertCircle, CalendarDays, CreditCard, RefreshCcw } from "lucide-react";
+import {
+  AlertCircle,
+  CalendarDays,
+  ChevronDown,
+  CreditCard,
+  ExternalLink,
+  RefreshCcw,
+} from "lucide-react";
 
 import EmptyState from "@/components/common/EmptyState";
 import { Button } from "@/components/ui/button";
 import {
   useCreateCustomerPortalSession,
   useMySubscriptions,
+  useMyTransactions,
 } from "@/lib/hooks/usePayments";
 import { formatPrice } from "@/lib/utils/format";
 import { cn } from "@/lib/utils/cn";
@@ -133,6 +142,8 @@ export default function SubscriptionsPage() {
 }
 
 function SubscriptionCard({ subscription }) {
+  const [showBillingHistory, setShowBillingHistory] = useState(false);
+
   const course = subscription.course;
   const coursePrice = subscription.coursePrice;
   const status = subscription.status || "ACTIVE";
@@ -234,10 +245,109 @@ function SubscriptionCard({ subscription }) {
             </p>
           </div>
         ) : null}
+
+        <button
+          type="button"
+          onClick={() => setShowBillingHistory((prev) => !prev)}
+          className="mt-4 flex items-center gap-1.5 text-[13px] font-bold text-[#377dff] hover:underline"
+        >
+          Billing history
+          <ChevronDown
+            className={cn(
+              "h-3.5 w-3.5 transition-transform",
+              showBillingHistory ? "rotate-180" : ""
+            )}
+          />
+        </button>
+
+        {showBillingHistory ? (
+          <BillingHistory courseId={course?.id} enabled={showBillingHistory} />
+        ) : null}
       </div>
     </article>
   );
 }
+
+function BillingHistory({ courseId, enabled }) {
+  const { data, isLoading, isError } = useMyTransactions(
+    { page: 1, limit: 10, courseId },
+    { enabled: enabled && Boolean(courseId) }
+  );
+
+  const items = data?.items || [];
+
+  if (isLoading) {
+    return (
+      <div className="mt-3 space-y-2">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <div key={index} className="h-10 animate-pulse rounded-[10px] bg-[#f4f7fb]" />
+        ))}
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <p className="mt-3 text-[13px] text-[#8a9aad]">Unable to load billing history.</p>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <p className="mt-3 text-[13px] text-[#8a9aad]">No billing history yet.</p>
+    );
+  }
+
+  return (
+    <div className="mt-3 space-y-2">
+      {items.map((tx) => (
+        <div
+          key={tx.id}
+          className="flex items-center justify-between rounded-[10px] bg-[#f8fbff] px-4 py-2.5"
+        >
+          <div className="min-w-0">
+            <p className="text-[13px] font-bold text-[#20242a]">
+              {TRANSACTION_TYPE_LABEL[tx.type] || tx.type}
+            </p>
+            <p className="text-[12px] text-[#8a9aad]">
+              {new Date(tx.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </p>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-3">
+            <span className="text-[13px] font-bold text-[#20242a]">
+              {formatPrice({ amount: tx.amount, currency: tx.currency })}
+            </span>
+
+            {tx.receiptUrl ? (
+              <a
+                href={tx.receiptUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#377dff]"
+                aria-label="View receipt"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            ) : null}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const TRANSACTION_TYPE_LABEL = {
+  PURCHASE_PAYMENT: "Purchase",
+  SUBSCRIPTION_PAYMENT: "Subscription payment",
+  LIVE_CLASS_PAYMENT: "Live class payment",
+  REFUND: "Refund",
+  CHARGEBACK: "Chargeback",
+};
 
 function StatCell({ icon: Icon, label, value, highlight }) {
   return (

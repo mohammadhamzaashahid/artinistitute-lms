@@ -31,6 +31,7 @@ export const queryKeys = {
     myCourses: (params) => ["payments", "my-courses", params],
     mySubscriptions: (params) => ["payments", "my-subscriptions", params],
     myPurchases: (params) => ["payments", "my-purchases", params],
+    myTransactions: (params) => ["payments", "my-transactions", params],
     sessionStatus: (sessionId) => ["payments", "session-status", sessionId],
     myLiveClassPurchases: (params) => ["payments", "my-live-class-purchases", params],
     myAccessibleLiveClasses: (params) => ["payments", "my-accessible-live-classes", params],
