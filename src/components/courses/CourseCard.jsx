@@ -6,6 +6,7 @@ import { BookOpen, Clock3, ThumbsUp } from "lucide-react";
 import CourseListImage from "@/components/courses/CourseListImage";
 import PriceText from "@/components/common/PriceText";
 import { cn } from "@/lib/utils/cn";
+import { getCourseDurationSeconds } from "@/lib/utils/course";
 import { formatDuration } from "@/lib/utils/format";
 
 export default function CourseCard({
@@ -17,14 +18,7 @@ export default function CourseCard({
   const price = Array.isArray(course?.prices) ? course.prices[0] : null;
   const lectureCount = course?._count?.lectures || course?.lectures?.length || 0;
 
-  const durationSeconds =
-    course?.durationSeconds ||
-    course?.totalDurationSeconds ||
-    course?.lectures?.reduce(
-      (total, lecture) => total + Number(lecture.durationSeconds || 0),
-      0
-    ) ||
-    0;
+  const durationSeconds = getCourseDurationSeconds(course);
 
   return (
     <Link
@@ -74,12 +68,16 @@ export default function CourseCard({
             {lectureCount || 0} lessons
           </span>
 
-          <span className="text-[#c1cad5]">|</span>
+          {durationSeconds > 0 ? (
+            <>
+              <span className="text-[#c1cad5]">|</span>
 
-          <span className="inline-flex items-center gap-1.5">
-            <Clock3 className="h-4 w-4 fill-[#8a9aad]/20" />
-            {formatDuration(durationSeconds || 3600)}
-          </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Clock3 className="h-4 w-4 fill-[#8a9aad]/20" />
+                {formatDuration(durationSeconds)}
+              </span>
+            </>
+          ) : null}
 
           <span className="text-[#c1cad5]">|</span>
 

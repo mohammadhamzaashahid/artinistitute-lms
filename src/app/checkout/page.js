@@ -26,7 +26,7 @@ import { formatDuration, formatPrice } from "@/lib/utils/format";
 import {
   getCourseLectures,
   getCoursePrices,
-  getTotalDurationSeconds,
+  getCourseDurationSeconds,
   normalizeCourseDetail,
 } from "@/lib/utils/course";
 
@@ -72,8 +72,8 @@ function CheckoutContent() {
   );
 
   const totalDuration = useMemo(
-    () => getTotalDurationSeconds(lectures),
-    [lectures]
+    () => getCourseDurationSeconds(course, lectures),
+    [course, lectures]
   );
 
   const isSubscription = selectedPrice?.priceType === "SUBSCRIPTION";

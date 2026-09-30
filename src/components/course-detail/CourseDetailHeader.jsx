@@ -5,12 +5,12 @@ import { BookOpen, Clock3, ThumbsUp } from "lucide-react";
 import { formatDuration } from "@/lib/utils/format";
 import {
   getCourseTags,
-  getTotalDurationSeconds,
+  getCourseDurationSeconds,
 } from "@/lib/utils/course";
 
 export default function CourseDetailHeader({ course, lectures = [] }) {
   const tags = getCourseTags(course);
-  const totalDuration = getTotalDurationSeconds(lectures);
+  const totalDuration = getCourseDurationSeconds(course, lectures);
   const lessonCount = lectures.length || course?._count?.lectures || 0;
 
   return (
@@ -66,12 +66,16 @@ export default function CourseDetailHeader({ course, lectures = [] }) {
           {lessonCount} lessons
         </span>
 
-        <span className="text-[#c1cad5]">|</span>
+        {totalDuration > 0 ? (
+          <>
+            <span className="text-[#c1cad5]">|</span>
 
-        <span className="inline-flex items-center gap-2">
-          <Clock3 className="h-5 w-5 fill-[#7f91a6]/20" />
-          {formatDuration(totalDuration)}
-        </span>
+            <span className="inline-flex items-center gap-2">
+              <Clock3 className="h-5 w-5 fill-[#7f91a6]/20" />
+              {formatDuration(totalDuration)}
+            </span>
+          </>
+        ) : null}
 
         <span className="text-[#c1cad5]">|</span>
 

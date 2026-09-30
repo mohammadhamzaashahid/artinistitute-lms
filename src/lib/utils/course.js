@@ -47,3 +47,11 @@ export function getTotalDurationSeconds(lectures = []) {
     0
   );
 }
+
+// Admin-entered total duration wins; otherwise fall back to summing lectures.
+export function getCourseDurationSeconds(course, lectures = course?.lectures) {
+  const manualMinutes = Number(course?.totalDurationMinutes || 0);
+  if (manualMinutes > 0) return manualMinutes * 60;
+
+  return getTotalDurationSeconds(Array.isArray(lectures) ? lectures : []);
+}
