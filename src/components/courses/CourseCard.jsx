@@ -56,13 +56,7 @@ export default function CourseCard({
           </p>
         ) : null}
 
-        <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[14px] font-medium text-[#8a9aad]">
-          <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-[#eef5ff]">
-            <span className="text-xs font-bold text-[#377dff]">
-              {(course?.title || "A").slice(0, 1)}
-            </span>
-          </div>
-
+        <div className="mt-6 flex flex-nowrap items-center gap-x-3 whitespace-nowrap text-[14px] font-medium text-[#8a9aad]">
           <span className="inline-flex items-center gap-1.5">
             <BookOpen className="h-4 w-4 fill-[#8a9aad]/20" />
             {lectureCount || 0} lessons

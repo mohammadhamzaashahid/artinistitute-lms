@@ -72,11 +72,11 @@ export default function CourseListCard({ course, index = 0 }) {
 
         <div className="p-5">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            {/* {languageLabel ? (
+            {languageLabel ? (
               <span className="rounded-full bg-[#eef5ff] px-3 py-1 text-[12px] font-extrabold text-[#377dff]">
                 {languageLabel}
               </span>
-            ) : null} */}
+            ) : null}
 
             {price ? (
               <span className="rounded-full bg-[#f5f8fc] px-3 py-1 text-[12px] font-extrabold text-[#20242a]">
