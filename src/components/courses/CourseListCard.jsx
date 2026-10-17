@@ -142,13 +142,13 @@ export default function CourseListCard({ course, index = 0 }) {
               {getCompletionRate(course)}
             </span>
 
-            <span
+            {/* <span
               className="inline-flex items-center gap-1 text-[#20242a]"
               title={`${getReviewCount(course)} reviews`}
             >
               <Star className="h-3.5 w-3.5 shrink-0 fill-[#ff9500] text-[#ff9500]" />
               {getRating(course)}
-            </span>
+            </span> */}
           </div>
         </div>
       </Link>
