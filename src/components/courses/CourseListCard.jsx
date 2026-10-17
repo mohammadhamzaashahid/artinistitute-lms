@@ -49,7 +49,8 @@ function getCompletionRate(course) {
 }
 
 export default function CourseListCard({ course, index = 0 }) {
-  const lectureCount = course?._count?.lectures || course?.lectures?.length || 0;
+  const lectureCount =
+    course?._count?.lectures || course?.lectures?.length || 0;
   const price = Array.isArray(course?.prices) ? course.prices[0] : null;
   const languageLabel = getLanguageLabel(course);
 
@@ -71,11 +72,11 @@ export default function CourseListCard({ course, index = 0 }) {
 
         <div className="p-5">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            {languageLabel ? (
+            {/* {languageLabel ? (
               <span className="rounded-full bg-[#eef5ff] px-3 py-1 text-[12px] font-extrabold text-[#377dff]">
                 {languageLabel}
               </span>
-            ) : null}
+            ) : null} */}
 
             {price ? (
               <span className="rounded-full bg-[#f5f8fc] px-3 py-1 text-[12px] font-extrabold text-[#20242a]">
@@ -123,9 +124,9 @@ export default function CourseListCard({ course, index = 0 }) {
             </span>
           </div> */}
 
-          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] font-bold text-[#8a9aad]">
-            <span className="inline-flex items-center gap-1">
-              <BookOpen className="h-2 w-2 text-[#c5d0de]" />
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[14px] font-bold text-[#8a9aad]">
+            <span className="inline-flex items-center gap-1.5">
+              <BookOpen className="h-4 w-4 text-[#c5d0de]" />
               {lectureCount} lessons
             </span>
 
@@ -133,8 +134,8 @@ export default function CourseListCard({ course, index = 0 }) {
               <>
                 <span className="text-[#c1cad5]">|</span>
 
-                <span className="inline-flex items-center gap-1">
-                  <Clock3 className="h-2 w-2 text-[#c5d0de]" />
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock3 className="h-4 w-4 text-[#c5d0de]" />
                   {formatDuration(durationSeconds)}
                 </span>
               </>
@@ -142,13 +143,13 @@ export default function CourseListCard({ course, index = 0 }) {
 
             <span className="text-[#c1cad5]">|</span>
 
-            <span className="inline-flex items-center gap-1">
-              <ThumbsUp className="h-2 w-2 text-[#c5d0de]" />
+            <span className="inline-flex items-center gap-1.5">
+              <ThumbsUp className="h-4 w-4 text-[#c5d0de]" />
               {getCompletionRate(course)}
             </span>
 
-            <span className="ml-auto inline-flex items-center gap-1 text-[#20242a]">
-              <Star className="h-2 w-2 fill-[#ff9500] text-[#ff9500]" />
+            <span className="ml-auto inline-flex items-center gap-1.5 text-[#20242a]">
+              <Star className="h-4 w-4 fill-[#ff9500] text-[#ff9500]" />
               {getRating(course)}
               <span className="font-semibold text-[#8a9aad]">
                 ({getReviewCount(course)})
