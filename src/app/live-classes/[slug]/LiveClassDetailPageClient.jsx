@@ -9,7 +9,7 @@ import Container from "@/components/common/Container";
 import LiveClassImage from "@/components/live-classes/LiveClassImage";
 import LiveClassDetailHeader from "@/components/live-class-detail/LiveClassDetailHeader";
 import LiveClassDetailSidebar from "@/components/live-class-detail/LiveClassDetailSidebar";
-import LiveClassDetailSkeleton from "@/components/live-class-detail/LiveClassDetailSkeleton";
+import PageLoader from "@/components/common/PageLoader";
 import LiveClassVideoSection from "@/components/live-class-detail/LiveClassVideoSection";
 import LiveClassVideoPlaybackModal from "@/components/live-class-detail/LiveClassVideoPlaybackModal";
 import MobileLiveClassActionBar from "@/components/live-class-detail/MobileLiveClassActionBar";
@@ -75,7 +75,7 @@ export default function LiveClassDetailPageClient({ slug }) {
   }
 
   if (liveClassQuery.isPending) {
-    return <LiveClassDetailSkeleton />;
+    return <PageLoader label="Loading live class" />;
   }
 
   if (liveClassQuery.isError || !liveClass) {

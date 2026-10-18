@@ -9,7 +9,7 @@ import EmptyState from "@/components/common/EmptyState";
 import BookCoverGallery from "@/components/books/BookCoverGallery";
 import AudioFileList from "@/components/books/AudioFileList";
 import BookDetailSidebar from "@/components/books/BookDetailSidebar";
-import BookDetailSkeleton from "@/components/books/BookDetailSkeleton";
+import PageLoader from "@/components/common/PageLoader";
 import BookOrderModal from "@/components/books/BookOrderModal";
 import AuthModal from "@/components/auth/AuthModal";
 import { useBookBySlug } from "@/lib/hooks/useBooks";
@@ -82,7 +82,9 @@ export default function BookDetailPageClient({ slug }) {
           </Link>
 
           {/* Loading */}
-          {isLoading ? <BookDetailSkeleton /> : null}
+          {isLoading ? (
+            <PageLoader label="Loading book" className="min-h-[50vh]" />
+          ) : null}
 
           {/* Error */}
           {!isLoading && isError ? (

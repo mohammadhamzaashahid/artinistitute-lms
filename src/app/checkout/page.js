@@ -19,6 +19,7 @@ import {
 import Container from "@/components/common/Container";
 import CourseListImage from "@/components/courses/CourseListImage";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import PageLoader from "@/components/common/PageLoader";
 import { Button } from "@/components/ui/button";
 import { useCourseDetail } from "@/lib/hooks/useCourseDetail";
 import { useCreateCheckoutSession } from "@/lib/hooks/usePayments";
@@ -32,23 +33,23 @@ import {
 
 export default function CheckoutPage() {
   return (
-    <ProtectedRoute>
-      <Suspense fallback={<CheckoutPageFallback />}>
+    <ProtectedRoute fallback={<CheckoutLoader />}>
+      <Suspense fallback={<CheckoutLoader />}>
         <CheckoutContent />
       </Suspense>
     </ProtectedRoute>
   );
 }
 
-function CheckoutPageFallback() {
+// One loader for the whole refresh sequence (session check → search params →
+// course fetch) so the screen doesn't flip between different placeholders.
+function CheckoutLoader() {
   return (
-    <section className="min-h-screen bg-[#f6f9ff] py-14">
-      <Container>
-        <div className="mx-auto max-w-5xl">
-          <CheckoutSkeleton />
-        </div>
-      </Container>
-    </section>
+    <PageLoader
+      label="Preparing your checkout"
+      description="Hang tight while we load your order details."
+      className="min-h-screen bg-[#f6f9ff]"
+    />
   );
 }
 
@@ -100,15 +101,7 @@ function CheckoutContent() {
   }
 
   if (courseQuery.isPending) {
-    return (
-      <section className="min-h-screen bg-[#f6f9ff] py-14">
-        <Container>
-          <div className="mx-auto max-w-5xl">
-            <CheckoutSkeleton />
-          </div>
-        </Container>
-      </section>
-    );
+    return <CheckoutLoader />;
   }
 
   if (courseQuery.isError || !course || !selectedPrice) {
@@ -360,14 +353,3 @@ function InvalidCheckout({ message }) {
   );
 }
 
-function CheckoutSkeleton() {
-  return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-8">
-      <div className="space-y-5">
-        <div className="h-48 animate-pulse rounded-[20px] bg-[#e8eef6]" />
-        <div className="h-64 animate-pulse rounded-[20px] bg-[#e8eef6]" />
-      </div>
-      <div className="h-80 animate-pulse rounded-[20px] bg-[#e8eef6]" />
-    </div>
-  );
-}

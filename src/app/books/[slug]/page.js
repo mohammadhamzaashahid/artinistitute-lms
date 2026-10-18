@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import BookDetailPageClient from "./BookDetailPageClient";
-import BookDetailSkeleton from "@/components/books/BookDetailSkeleton";
-import Container from "@/components/common/Container";
+import PageLoader from "@/components/common/PageLoader";
 
 export async function generateMetadata({ params }) {
   const slug = (await params)?.slug ?? "";
@@ -16,15 +15,7 @@ export default async function BookDetailPage({ params }) {
   const slug = (await params)?.slug ?? "";
 
   return (
-    <Suspense
-      fallback={
-        <div className="bg-white pb-20 pt-10">
-          <Container>
-            <BookDetailSkeleton />
-          </Container>
-        </div>
-      }
-    >
+    <Suspense fallback={<PageLoader label="Loading book" />}>
       <BookDetailPageClient slug={slug} />
     </Suspense>
   );

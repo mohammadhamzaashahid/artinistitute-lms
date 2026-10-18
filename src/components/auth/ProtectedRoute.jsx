@@ -4,27 +4,21 @@ import Link from "next/link";
 import { LockKeyhole } from "lucide-react";
 
 import Container from "@/components/common/Container";
+import PageLoader from "@/components/common/PageLoader";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/lib/store/auth.store";
 
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute({ children, fallback }) {
   const user = useAuthStore((state) => state.user);
   const accessToken = useAuthStore((state) => state.accessToken);
   const isAuthReady = useAuthStore((state) => state.isAuthReady);
 
   if (!isAuthReady) {
-    return (
-      <section className="bg-white py-14 sm:py-20">
-        <Container>
-          <div className="mx-auto max-w-md rounded-[24px] border border-[#e3eaf3] p-6 text-center shadow-[0_18px_45px_rgba(15,23,42,0.04)] sm:rounded-[28px] sm:p-8">
-            <div className="mx-auto h-12 w-12 animate-pulse rounded-full bg-[#eef5ff]" />
-            <p className="mt-4 text-sm font-semibold text-[#66788f]">
-              Checking your session...
-            </p>
-          </div>
-        </Container>
-      </section>
-    );
+    // Pages can pass their own skeleton so a refresh shows one continuous
+    // loading state instead of a session card followed by the page skeleton.
+    if (fallback) return fallback;
+
+    return <PageLoader label="Checking your session" />;
   }
 
   if (!user || !accessToken) {

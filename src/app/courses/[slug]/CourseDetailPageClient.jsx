@@ -18,7 +18,7 @@ import CourseCard from "@/components/courses/CourseCard";
 import CourseListImage from "@/components/courses/CourseListImage";
 import CourseDetailHeader from "@/components/course-detail/CourseDetailHeader";
 import CourseDetailSidebar from "@/components/course-detail/CourseDetailSidebar";
-import CourseDetailSkeleton from "@/components/course-detail/CourseDetailSkeleton";
+import PageLoader from "@/components/common/PageLoader";
 import LectureList from "@/components/course-detail/LectureList";
 import LecturePlaybackModal from "@/components/course-detail/LecturePlaybackModal";
 import MobileCourseActionBar from "@/components/course-detail/MobileCourseActionBar";
@@ -136,7 +136,7 @@ export default function CourseDetailPageClient({ slug }) {
   // isPending (not isLoading) so the skeleton also covers the window where the
   // query is disabled while auth hydrates on refresh.
   if (courseQuery.isPending) {
-    return <CourseDetailSkeleton />;
+    return <PageLoader label="Loading course" />;
   }
 
   if (courseQuery.isError || !course) {
