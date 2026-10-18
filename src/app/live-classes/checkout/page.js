@@ -87,7 +87,7 @@ function CheckoutContent() {
     );
   }
 
-  if (liveClassQuery.isLoading) {
+  if (liveClassQuery.isPending) {
     return (
       <section className="min-h-screen bg-[#f6f9ff] py-14">
         <Container>

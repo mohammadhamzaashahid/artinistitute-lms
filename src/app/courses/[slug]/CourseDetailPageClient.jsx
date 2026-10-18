@@ -133,7 +133,9 @@ export default function CourseDetailPageClient({ slug }) {
     router.push(`/checkout?slug=${course.slug}&priceId=${primaryPrice.id}`);
   }
 
-  if (courseQuery.isLoading) {
+  // isPending (not isLoading) so the skeleton also covers the window where the
+  // query is disabled while auth hydrates on refresh.
+  if (courseQuery.isPending) {
     return <CourseDetailSkeleton />;
   }
 

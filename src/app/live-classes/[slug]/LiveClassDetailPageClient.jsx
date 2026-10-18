@@ -74,7 +74,7 @@ export default function LiveClassDetailPageClient({ slug }) {
     router.push(`/live-classes/checkout?slug=${liveClass.slug}&priceId=${price.id}`);
   }
 
-  if (liveClassQuery.isLoading) {
+  if (liveClassQuery.isPending) {
     return <LiveClassDetailSkeleton />;
   }
 
